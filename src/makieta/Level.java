@@ -71,7 +71,15 @@ public class Level extends JPanel implements ActionListener,KeyListener {
 	  */
 	 public ArrayList<Bomb> bombs;
 	 
+	/**
+	  * Lista przechowujaca obiekty płomieni.
+	  */
 	 public ArrayList<Flame> flames;
+	
+	/**
+	  * Lista przechowujaca obiekty potworow.
+	  */
+	 public ArrayList<Creep> creeps;
 	 
 	 /**
 	  * Lista przechowujaca wszystkie pola.
@@ -226,6 +234,11 @@ public class Level extends JPanel implements ActionListener,KeyListener {
 	   
 	    }
 	    g.drawImage(image ,gracz.getX(),gracz.getY(),this);
+		
+		for(int i=0;i<creeps.size();i++)
+	    	{
+	   	g.drawImage(image, creeps.get(i).getX(), creeps.get(i).getY(), this);
+	    	}
 	}
 
 	public void init() {
@@ -412,7 +425,8 @@ public class Level extends JPanel implements ActionListener,KeyListener {
     	bombs = new ArrayList<Bomb>();
     	flames= new ArrayList<Flame>();
     	fields=new ArrayList<Field>();
-
+	creeps = new ArrayList<Creep>();
+	    
     	for(int k=0;k<11;k++)
     	{
     	
@@ -429,6 +443,12 @@ public class Level extends JPanel implements ActionListener,KeyListener {
     				chests.add(new Chest());
     				chests.get(c).initPosition(50*i,50*k);
     				c++;
+    			}
+			if(Character.getNumericValue(Properties.mapa[k].charAt(i))==3)
+    			{
+    				creeps.add(new Creep(this));
+    				creeps.get(cr).initPosition(50*i,50*k);
+    				cr++;
     			}
     		}
     	}
