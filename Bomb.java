@@ -21,6 +21,17 @@ void elo(Level level)
 {
 	class ExplodeTask extends TimerTask {
 		public void run() {
+			level.numberOfFlames++;
+			System.out.println(level.numberOfFlames);
+			for(int i=0;i<5;i++)
+    		{
+    		level.flames.add(new Flame(level));
+    		}
+    		level.flames.get(5*(level.numberOfFlames-1)).initPosition(level.bombs.get(0).getX()-50, level.bombs.get(0).getY());
+			level.flames.get(5*(level.numberOfFlames-1)+1).initPosition(level.bombs.get(0).getX()+50, level.bombs.get(0).getY());
+    		level.flames.get(5*(level.numberOfFlames-1)+2).initPosition(level.bombs.get(0).getX(),level.bombs.get(0).getY()+50);
+    		level.flames.get(5*(level.numberOfFlames-1)+3).initPosition(level.bombs.get(0).getX(), level.bombs.get(0).getY()-50);
+    		level.flames.get(5*(level.numberOfFlames-1)+4).initPosition(level.bombs.get(0).getX(), level.bombs.get(0).getY());    	
 			System.out.println(level.fields.size());
 			level.fields.remove(level.fields.size()-level.numberOfBombs);
 			level.bombs.remove(level.bombs.get(0));

@@ -208,18 +208,16 @@ public class Level extends JPanel implements ActionListener,KeyListener {
 	    	initPosition=false;
 	    }
 	    
-	    if(bomb==true){
+	    if(bomb==true)
+	    {
 	    	for(int i=0; i<fields.size(); i++)
 	    		if(fields.get(i) instanceof Bomb)
-	    	g.drawImage(image5, fields.get(i).getX(),fields.get(i).getY() , this);
+	    			g.drawImage(image5, fields.get(i).getX(),fields.get(i).getY() , this);
 	    }
 	  
-	   	for(int i=0;i<numberOfFlames;i++)
+	   	for(int i=0;i<flames.size();i++)
 	   	{
-	    		for(int k=0;k<5;k++)
-	    		{
-	    		g.drawImage(image8,flames.get(5*i+k).getX() , flames.get(5*i+k).getY(), this);
-	    		}
+	    		g.drawImage(image8, flames.get(i).getX(), flames.get(i).getY(), this);
 	    }
 	    g.drawImage(image ,gracz.getX(),gracz.getY(),this);
 	
@@ -356,22 +354,11 @@ public class Level extends JPanel implements ActionListener,KeyListener {
     		newBomb.initPosition(gracz.getX(), gracz.getY());
     		
     		if (bombs.size()==0){
-    			bomb=true;
-    			numberOfFlames++;
-    			for(int i=0;i<5;i++)
-        		{
-        		flames.add(new Flame(this));
-        		}
-        		flames.get(5*(numberOfFlames-1)).initPosition(gracz.getX()-50, gracz.getY());
-        		flames.get(5*(numberOfFlames-1)+1).initPosition(gracz.getX()+50, gracz.getY());
-        		flames.get(5*(numberOfFlames-1)+2).initPosition(gracz.getX(),gracz.getY()+50);
-        		flames.get(5*(numberOfFlames-1)+3).initPosition(gracz.getX(), gracz.getY()-50);
-        		flames.get(5*(numberOfFlames-1)+4).initPosition(gracz.getX(), gracz.getY());    				
+    			bomb=true;	
         		bombs.add(newBomb);
     			fields.addAll(bombs);
     			System.out.println("nowa bomba");
 				bombs.get(0).elo(this);
-				
     		}	
     		else{	
     			if((Math.abs(gracz.getX()-bombs.get(bombs.size()-1).getX())<50) && (Math.abs(gracz.getY()-bombs.get(bombs.size()-1).getY())<50))
@@ -380,18 +367,8 @@ public class Level extends JPanel implements ActionListener,KeyListener {
     			}
     			else{
     				bomb=true;
-    				numberOfFlames++;
     				bombs.add(newBomb);
     				fields.add(bombs.get(bombs.size()-1));
-    				for(int i=0;i<5;i++)
-            		{
-            		flames.add(new Flame(this));
-            		}
-            		flames.get(5*(numberOfFlames-1)).initPosition(gracz.getX()-50, gracz.getY());
-            		flames.get(5*(numberOfFlames-1)+1).initPosition(gracz.getX()+50, gracz.getY());
-            		flames.get(5*(numberOfFlames-1)+2).initPosition(gracz.getX(),gracz.getY()+50);
-            		flames.get(5*(numberOfFlames-1)+3).initPosition(gracz.getX(), gracz.getY()-50);
-            		flames.get(5*(numberOfFlames-1)+4).initPosition(gracz.getX(), gracz.getY());
     				bombs.get(0).elo(this);
     				
     			}
