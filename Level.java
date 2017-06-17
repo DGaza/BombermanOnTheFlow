@@ -60,12 +60,12 @@ public class Level extends JPanel implements ActionListener,KeyListener {
 	 /**
 	  * Lista przechowujaca obiekty scian.
 	  */
-	 private ArrayList<Wall> walls;
+	 public ArrayList<Wall> walls;
 	 
 	 /**
 	  * Lista przechowujaca obiekty skrzynek.
 	  */
-	 private ArrayList<Chest> chests;
+	public ArrayList<Chest> chests;
 	 
 	 /**
 	  * Lista przechowujaca obiekty bomb.
@@ -183,24 +183,18 @@ public class Level extends JPanel implements ActionListener,KeyListener {
 	    {
 	    for (int i=0;i<11;i++)
 	    {
-	    if(Character.getNumericValue(Properties.mapa[k].charAt(i))==0||Character.getNumericValue(Properties.mapa[k].charAt(i))==3)
-	    {
+	  //  if(Character.getNumericValue(Properties.mapa[k].charAt(i))==0||Character.getNumericValue(Properties.mapa[k].charAt(i))==3)
 	    	g2.setPaint(Color.green);
 	    	g2.fill(new Rectangle2D.Double(50*i,50*k,50,50));
+	    } 
 	    }
-	    else   if(Character.getNumericValue(Properties.mapa[k].charAt(i))==1)
-	    {
-	    	g2.setPaint(Color.gray);
-	    	g2.fill(new Rectangle2D.Double(50*i,50*k,50,50));
-	    	g.drawImage(image6,50*i,50*k,this);
-	    }
-	    else   if(Character.getNumericValue(Properties.mapa[k].charAt(i))==2)
-	    {
-	    	g2.setPaint(Color.yellow);
-	    	g2.fill(new Rectangle2D.Double(50*i,50*k,50,50));
-	    	g.drawImage(image7, 50*i, 50*k, this);
-	    }
-	    }
+	    
+	   	for(int i=0;i<fields.size();i++)
+	   	{
+	   		if (fields.get(i) instanceof Wall)
+	    		g.drawImage(image6, fields.get(i).getX(), fields.get(i).getY(), this);
+	   		else if (fields.get(i) instanceof Chest)
+	    		g.drawImage(image7, fields.get(i).getX(), fields.get(i).getY(), this);
 	    }
 	    
 	    if(initPosition){
@@ -292,7 +286,7 @@ public class Level extends JPanel implements ActionListener,KeyListener {
     			}
     		}
     		if(brak_kolizji)
-    			gracz.x+=25;
+    			gracz.x+=50;
 
     	}
 
@@ -310,7 +304,7 @@ public class Level extends JPanel implements ActionListener,KeyListener {
     			}
     		}
     		if(brak_kolizji)
-    			gracz.x-=25;
+    			gracz.x-=50;
 
     	}
 		
@@ -328,7 +322,7 @@ public class Level extends JPanel implements ActionListener,KeyListener {
     			}
     		}
     		if(brak_kolizji)
-    			gracz.y-=25;
+    			gracz.y-=50;
 
     	}
     	else if (e.getKeyCode()==KeyEvent.VK_DOWN)
@@ -344,7 +338,7 @@ public class Level extends JPanel implements ActionListener,KeyListener {
     			}
     		}
     		if(brak_kolizji)
-    			gracz.y+=25;
+    			gracz.y+=50;
 
     	}
     	else if (e.getKeyCode()==KeyEvent.VK_SPACE)

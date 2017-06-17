@@ -37,6 +37,22 @@ if(this.getX()==level.fields.get(i).getX() && this.getX()==level.fields.get(i).g
 	return 0;
 }
 
+public boolean Kolizja(Field field){
+    if((this.getY()== field.getY()) && ((this.getX()==field.getX()))) {
+
+        return true;
+    }
+    else{
+        return false;
+    }
+}
+
+/**
+ * Metoda sprawdzajaca czy dochodzi do kolizji z gory. 
+ * Zwraca true albo false w zaleznosci czy doszlo do kolizji.
+ */
+
+
 
 
 	}
