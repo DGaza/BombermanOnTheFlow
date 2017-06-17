@@ -13,6 +13,7 @@ public class Bomb extends Field {
 	Timer flamesTimer;
 	boolean on_the_map;
 	int collisions=0;
+	ArrayList<Flame> flamess= new ArrayList<Flame>();
 
 	Bomb(Level level)
 	{
@@ -26,17 +27,18 @@ public class Bomb extends Field {
 		{
 		//	System.out.println("wspolrzedne usunietego plomienia: x:"+level.flames.get(5*(level.numberOfFlames-1)+k).getX()+"y:"+level.flames.get(5*(level.numberOfFlames-1)*k).getY());
 		//	System.out.println("wspolrzedne kamienia: x:"+level.walls.get(5*(level.numberOfFlames-1)*k).getX()+"y:"+level.flames.get(5*(level.numberOfFlames-1)*k).getY());
-		if(level.flames.get(5*(level.numberOfFlames-1)+k).Kolizja(level.walls.get(i)))
+		if(flamess.get(k).Kolizja(level.walls.get(i)))
 		{
-			System.out.println("wspolrzedne usunietego plomienia: x:"+level.flames.get(5*(level.numberOfFlames-1)+k).getX()+"y:"+level.flames.get(5*(level.numberOfFlames-1)+k).getY());
-		level.flames.remove(5*(level.numberOfFlames-1)+k);
+			System.out.println("wspolrzedne usunietego plomienia: x:"+flamess.get(k).getX()+"y:"+flamess.get(k).getY());
+			System.out.println("usuwam plomien o indeksie: x:"+k);
+		flamess.remove(k);
 		collisions++;
 		k=0;
 		}
 		}
 		for(int i=0;i<level.chests.size();i++)
 		{
-		if(level.flames.get(5*(level.numberOfFlames-1)+k).Kolizja(level.chests.get(i)))
+		if(flamess.get(k).Kolizja(level.chests.get(i)))
 		{
 		for(int p=0;p<level.fields.size();p++)
 		{
@@ -52,7 +54,7 @@ public class Bomb extends Field {
 		}
 		for(int i=0;i<level.creeps.size();i++)
 		{
-		if(level.flames.get(5*(level.numberOfFlames-1)+k).Kolizja(level.creeps.get(i)))
+		if(flamess.get(k).Kolizja(level.creeps.get(i)))
 		{
 		level.creeps.remove(i);
 		}
@@ -65,19 +67,20 @@ void elo(Level level)
 	class ExplodeTask extends TimerTask {
 		public void run() {
 			level.numberOfFlames++;
-			System.out.println(level.numberOfFlames);
 			for(int i=0;i<5;i++)
     		{
-    		level.flames.add(new Flame(level));
+    		flamess.add(new Flame());
     		}
-			System.out.println("ilosc plomieni:"+level.numberOfFlames);
-    		level.flames.get(5*(level.numberOfFlames-1)-collisions).initPosition(level.bombs.get(0).getX()-50, level.bombs.get(0).getY());
-			level.flames.get(5*(level.numberOfFlames-1)+1-collisions).initPosition(level.bombs.get(0).getX()+50, level.bombs.get(0).getY());
-    		level.flames.get(5*(level.numberOfFlames-1)+2-collisions).initPosition(level.bombs.get(0).getX(),level.bombs.get(0).getY()+50);
-    		level.flames.get(5*(level.numberOfFlames-1)+3-collisions).initPosition(level.bombs.get(0).getX(), level.bombs.get(0).getY()-50);
-    		level.flames.get(5*(level.numberOfFlames-1)+4-collisions).initPosition(level.bombs.get(0).getX(), level.bombs.get(0).getY());
-			System.out.println(level.fields.size());
+    		flamess.get(0).initPosition(Bomb.this.getX()-50, Bomb.this.getY());
+			flamess.get(1).initPosition(Bomb.this.getX()+50, Bomb.this.getY());
+    		flamess.get(2).initPosition(Bomb.this.getX(),Bomb.this.getY()+50);
+    		flamess.get(3).initPosition(Bomb.this.getX(), Bomb.this.getY()-50);
+    		flamess.get(4).initPosition(Bomb.this.getX(), Bomb.this.getY());
+    		System.out.println("wspbomby w srodku bomby x:"+Bomb.this.getX()+"I Y:"+Bomb.this.getY());
+    		System.out.println("wspbomby w levelu x:"+level.bombs.get(0).getX()+"I Y:"+level.bombs.get(0).getY());
 			checkCollisions(level);
+			System.out.println("kolizje:"+collisions);
+			level.flames.addAll(flamess);
 			level.fields.remove(level.fields.size()-level.numberOfBombs);
 			level.bombs.remove(level.bombs.get(0));
 			System.out.println(level.fields.size());
@@ -88,7 +91,9 @@ void elo(Level level)
 				public void run(){
 					for(int i=0;i<5-collisions;i++)
 					{
+						System.out.println("usuwam plomyczek o x:"+level.flames.get(0).getX()+"i y:"+level.flames.get(0).getY());
 						level.flames.remove(0);
+						
 					}
 					level.numberOfFlames--;
 					collisions=0;
@@ -96,7 +101,7 @@ void elo(Level level)
 			}
 	
 		flamesTimer = new Timer();
-		flamesTimer.schedule(new FlamesTask(), 2000);
+		flamesTimer.schedule(new FlamesTask(), 1000);
 		System.out.println("number of collisions:"+collisions);
 		level.repaint();
 		}

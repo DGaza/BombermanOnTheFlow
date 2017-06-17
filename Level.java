@@ -43,6 +43,7 @@ public class Level extends JPanel implements ActionListener,KeyListener {
 	 
 	 JButton EndGame= new JButton("End Game");
 	 JButton Pause= new JButton("Pause");
+	 JButton YouLost;
 	 boolean initPosition;
 	 boolean bomb;
 	 Player gracz=new Player();	
@@ -283,11 +284,22 @@ public class Level extends JPanel implements ActionListener,KeyListener {
     			{
     				gracz.x=gracz.x;
     				brak_kolizji=false;
+    		
+    			}
+    		}
+    		for(int i=0;i<flames.size();i++)
+    		{
+    			if(gracz.prawaKolizja(flames.get(i))==true)
+    			{
+    				gracz.x=gracz.x;
+    				brak_kolizji=false;
+    				YouLost=new JButton("Przegrales kurwo");
+    				YouLost.setBounds(700,500,500,100);
+    				this.add(YouLost);
     			}
     		}
     		if(brak_kolizji)
     			gracz.x+=50;
-
     	}
 
 
@@ -301,6 +313,17 @@ public class Level extends JPanel implements ActionListener,KeyListener {
     			{
     				gracz.x=gracz.x;
     				brak_kolizji=false;
+    			}
+    		}
+    		for(int i=0;i<flames.size();i++)
+    		{
+    			if(gracz.lewaKolizja(flames.get(i))==true)
+    			{
+    				gracz.x=gracz.x;
+    				brak_kolizji=false;
+    				YouLost=new JButton("Przegrales kurwo");
+    				YouLost.setBounds(700,500,500,100);
+    				this.add(YouLost);
     			}
     		}
     		if(brak_kolizji)
@@ -321,6 +344,17 @@ public class Level extends JPanel implements ActionListener,KeyListener {
     				brak_kolizji=false;
     			}
     		}
+    		for(int i=0;i<flames.size();i++)
+    		{
+    			if(gracz.gornaKolizja(flames.get(i))==true)
+    			{
+    				gracz.x=gracz.x;
+    				brak_kolizji=false;
+    				YouLost=new JButton("Przegrales kurwo");
+    				YouLost.setBounds(700,500,500,100);
+    				this.add(YouLost);
+    			}
+    		}
     		if(brak_kolizji)
     			gracz.y-=50;
 
@@ -335,6 +369,17 @@ public class Level extends JPanel implements ActionListener,KeyListener {
     			{
     				gracz.y=gracz.y;
     				brak_kolizji=false;
+    			}
+    		}
+    		for(int i=0;i<flames.size();i++)
+    		{
+    			if(gracz.dolnaKolizja(flames.get(i))==true)
+    			{
+    				gracz.x=gracz.x;
+    				brak_kolizji=false;
+    				YouLost=new JButton("Przegrales kurwo");
+    				YouLost.setBounds(700,500,500,100);
+    				this.add(YouLost);
     			}
     		}
     		if(brak_kolizji)
@@ -362,8 +407,9 @@ public class Level extends JPanel implements ActionListener,KeyListener {
     			else{
     				bomb=true;
     				bombs.add(newBomb);
+    				System.out.println("nowa bomba");
     				fields.add(bombs.get(bombs.size()-1));
-    				bombs.get(0).elo(this);
+    				bombs.get(bombs.size()-1).elo(this);
     				
     			}
     		}
@@ -422,4 +468,3 @@ public class Level extends JPanel implements ActionListener,KeyListener {
     
 
 	}
-	

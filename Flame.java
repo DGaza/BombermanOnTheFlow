@@ -1,12 +1,14 @@
 package makieta;
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class Flame extends Field{
 	public Timer FlameTimer;
-	boolean on_the_map=false;
-		public Flame(Level level)
+	public ArrayList<Flame> flames=new ArrayList<Flame>();
+		public Flame()
 	{
+	
 	}
 
 

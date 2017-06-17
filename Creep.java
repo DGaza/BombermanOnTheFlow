@@ -18,9 +18,18 @@ public class Creep extends Field {
 				boolean brak_kolizji=true;
 				for(int i=0;i<level.fields.size();i++)
 				{
+				
 					if(Creep.this.prawaKolizja(level.fields.get(i))==true)
 					{
 						brak_kolizji=false;
+					}
+				}
+				for(int i=0;i<level.flames.size();i++)
+				{
+					if(Creep.this.prawaKolizja(level.flames.get(i))==true)
+					{
+						brak_kolizji=false;
+						level.creeps.remove(Creep.this);
 					}
 				}
 				if(brak_kolizji)
@@ -32,9 +41,18 @@ public class Creep extends Field {
 				boolean brak_kolizji=true;
 				for(int i=0;i<level.fields.size();i++)
 				{
+					
 					if(Creep.this.lewaKolizja(level.fields.get(i))==true)
 					{
 						brak_kolizji=false;
+					}
+				}
+				for(int i=0;i<level.flames.size();i++)
+				{
+					if(Creep.this.lewaKolizja(level.flames.get(i))==true)
+					{
+						brak_kolizji=false;
+						level.creeps.remove(Creep.this);
 					}
 				}
 				if(brak_kolizji)
@@ -46,9 +64,18 @@ public class Creep extends Field {
 				boolean brak_kolizji=true;
 				for(int i=0;i<level.fields.size();i++)
 				{
+					
 					if(Creep.this.gornaKolizja(level.fields.get(i))==true)
 					{
 						brak_kolizji=false;
+					}
+				}
+				for(int i=0;i<level.flames.size();i++)
+				{
+					if(Creep.this.gornaKolizja(level.flames.get(i))==true)
+					{
+						brak_kolizji=false;
+						level.creeps.remove(Creep.this);
 					}
 				}
 				if(brak_kolizji)
@@ -60,9 +87,18 @@ public class Creep extends Field {
 				boolean brak_kolizji=true;
 				for(int i=0;i<level.fields.size();i++)
 				{
+					
 					if(Creep.this.dolnaKolizja(level.fields.get(i))==true)
 					{
 						brak_kolizji=false;
+					}
+				}
+				for(int i=0;i<level.flames.size();i++)
+				{
+					if(Creep.this.dolnaKolizja(level.flames.get(i))==true)
+					{
+						brak_kolizji=false;
+						level.creeps.remove(Creep.this);
 					}
 				}
 				if(brak_kolizji)

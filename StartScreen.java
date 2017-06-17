@@ -1,6 +1,8 @@
 package makieta;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -53,14 +55,20 @@ public class StartScreen extends JFrame implements ActionListener, KeyListener
 	{
 	dispose();
 	JFrame frame = new JFrame();
-	frame.setLayout(new BorderLayout());
-	frame.setSize(Properties.StartScreenFrameWidth, Properties.StartScreenFrameHeight);
+	frame.setLayout(new GridLayout(1,1));
+//	frame.setSize(Properties.StartScreenFrameWidth, Properties.StartScreenFrameHeight);
 	frame.setTitle(Properties.FrameTitle);
 	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	frame.setLocationRelativeTo(null);
 	
+	frame.setMinimumSize(new Dimension(Properties.StartScreenFrameWidth, Properties.StartScreenFrameHeight));
+	frame.setPreferredSize(new Dimension(Properties.StartScreenFrameWidth, Properties.StartScreenFrameHeight));
+	frame.setMaximumSize(new Dimension(Properties.StartScreenFrameWidth, Properties.StartScreenFrameHeight));
+	
+	
+	
 	Level level = new Level();
-	frame.add(level,BorderLayout.CENTER);
+	frame.add(level, 0);
 	frame.setVisible(true);
 	}
 	
