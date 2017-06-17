@@ -47,12 +47,12 @@ public class Level extends JPanel implements ActionListener,KeyListener {
 	 boolean bomb;
 	 Player gracz=new Player();	
 	 private Timer time;
-	 java.util.Timer bombTime;
+//	 java.util.Timer bombTime;
 	 private int delay=8;
-	 private int bombDelay=0;
+//	 private int bombDelay=0;
 	 public int numberOfBombs=0;
 	 public int numberOfFlames=0;
-	 private Timer moveTimer;
+//	 private Timer moveTimer;
 	 int p=0;
 	 
 	 
@@ -214,18 +214,12 @@ public class Level extends JPanel implements ActionListener,KeyListener {
 	    	g.drawImage(image5, fields.get(i).getX(),fields.get(i).getY() , this);
 	    }
 	  
-	    for(int j=0;j<flames.size();j++)
-	    {
-	    if(flames.get(j).on_the_map==true)
-	    {
 	   	for(int i=0;i<numberOfFlames;i++)
 	   	{
 	    		for(int k=0;k<5;k++)
 	    		{
 	    		g.drawImage(image8,flames.get(5*i+k).getX() , flames.get(5*i+k).getY(), this);
 	    		}
-	    }
-	    }
 	    }
 	    g.drawImage(image ,gracz.getX(),gracz.getY(),this);
 	
@@ -252,8 +246,6 @@ public class Level extends JPanel implements ActionListener,KeyListener {
     @Override
     public void actionPerformed(ActionEvent e)
     {
-
-    	
     	time.start();
     	repaint();
     }
@@ -359,44 +351,49 @@ public class Level extends JPanel implements ActionListener,KeyListener {
     	}
     	else if (e.getKeyCode()==KeyEvent.VK_SPACE)
     	{
+    		numberOfBombs++;
+    		Bomb newBomb=new Bomb(this);
+    		newBomb.initPosition(gracz.getX(), gracz.getY());
     		
-    		bombs.add(new Bomb(this));
-    		bombs.get(bombs.size()-1).initPosition(gracz.getX(), gracz.getY());
-    		
-    		if (bombs.size()==1){
+    		if (bombs.size()==0){
     			bomb=true;
-    			numberOfBombs++;
     			numberOfFlames++;
     			for(int i=0;i<5;i++)
         		{
-        		flames.add(new Flame());
+        		flames.add(new Flame(this));
         		}
         		flames.get(5*(numberOfFlames-1)).initPosition(gracz.getX()-50, gracz.getY());
         		flames.get(5*(numberOfFlames-1)+1).initPosition(gracz.getX()+50, gracz.getY());
         		flames.get(5*(numberOfFlames-1)+2).initPosition(gracz.getX(),gracz.getY()+50);
         		flames.get(5*(numberOfFlames-1)+3).initPosition(gracz.getX(), gracz.getY()-50);
-        		flames.get(5*(numberOfFlames-1)+4).initPosition(gracz.getX(), gracz.getY());
+        		flames.get(5*(numberOfFlames-1)+4).initPosition(gracz.getX(), gracz.getY());    				
+        		bombs.add(newBomb);
     			fields.addAll(bombs);
     			System.out.println("nowa bomba");
+				bombs.get(0).elo(this);
+				
     		}	
     		else{	
-    			if((Math.abs(gracz.getX()-bombs.get(bombs.size()-2).getX())<50) && (Math.abs(gracz.getY()-bombs.get(bombs.size()-2).getY())<50)){
-    				bombs.remove(bombs.size()-1);
+    			if((Math.abs(gracz.getX()-bombs.get(bombs.size()-1).getX())<50) && (Math.abs(gracz.getY()-bombs.get(bombs.size()-1).getY())<50))
+    			{
+    				numberOfBombs--;
     			}
     			else{
     				bomb=true;
-    				numberOfBombs++;
     				numberOfFlames++;
+    				bombs.add(newBomb);
+    				fields.add(bombs.get(bombs.size()-1));
     				for(int i=0;i<5;i++)
             		{
-            		flames.add(new Flame());
+            		flames.add(new Flame(this));
             		}
             		flames.get(5*(numberOfFlames-1)).initPosition(gracz.getX()-50, gracz.getY());
             		flames.get(5*(numberOfFlames-1)+1).initPosition(gracz.getX()+50, gracz.getY());
             		flames.get(5*(numberOfFlames-1)+2).initPosition(gracz.getX(),gracz.getY()+50);
             		flames.get(5*(numberOfFlames-1)+3).initPosition(gracz.getX(), gracz.getY()-50);
             		flames.get(5*(numberOfFlames-1)+4).initPosition(gracz.getX(), gracz.getY());
-    				fields.add(bombs.get(bombs.size()-1));
+    				bombs.get(0).elo(this);
+    				
     			}
     		}
     	}
@@ -455,6 +452,3 @@ public class Level extends JPanel implements ActionListener,KeyListener {
 
 	}
 	
-
-
-

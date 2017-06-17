@@ -5,11 +5,20 @@ import java.util.TimerTask;
 public class Flame extends Field{
 	public Timer FlameTimer;
 	boolean on_the_map=false;
-		public Flame()
+		public Flame(Level level)
 	{
-			
+	/*		class FlameTask extends TimerTask {
+				public void run() {
+					Flame.this.on_the_map=false;
+					level.repaint();
+			}
+			}
+
+		FlameTimer = new Timer();
+		FlameTimer.schedule(new FlameTask(), 3000);	*/
 	}
-	
+
+
 		
 
 		
@@ -33,19 +42,7 @@ if(this.getX()==level.fields.get(i).getX() && this.getX()==level.fields.get(i).g
 	
 }
 
-void disappear(Level level)
-{
-	class FlameTask extends TimerTask {
-		public void run() {
-			Flame.this.on_the_map=false;
-			level.repaint();
-	}
-	}
 
-FlameTimer = new Timer();
-this.porownanie(level);
-FlameTimer.schedule(new FlameTask(), 3000);	
-}
 
 	}
 
