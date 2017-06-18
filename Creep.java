@@ -29,7 +29,6 @@ public class Creep extends Field {
 					if(Creep.this.prawaKolizja(level.flames.get(i))==true)
 					{
 						brak_kolizji=false;
-						level.creeps.remove(Creep.this);
 					}
 				}
 				if(brak_kolizji)
@@ -52,7 +51,6 @@ public class Creep extends Field {
 					if(Creep.this.lewaKolizja(level.flames.get(i))==true)
 					{
 						brak_kolizji=false;
-						level.creeps.remove(Creep.this);
 					}
 				}
 				if(brak_kolizji)
@@ -75,7 +73,6 @@ public class Creep extends Field {
 					if(Creep.this.gornaKolizja(level.flames.get(i))==true)
 					{
 						brak_kolizji=false;
-						level.creeps.remove(Creep.this);
 					}
 				}
 				if(brak_kolizji)
@@ -98,14 +95,12 @@ public class Creep extends Field {
 					if(Creep.this.dolnaKolizja(level.flames.get(i))==true)
 					{
 						brak_kolizji=false;
-						level.creeps.remove(Creep.this);
 					}
 				}
 				if(brak_kolizji)
 					y+=50;
 			}
 			level.repaint();
-			
 		}
 	}
 	moveTimer = new Timer();

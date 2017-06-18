@@ -51,7 +51,7 @@ public class MainWindow extends JFrame {
     	setLocationRelativeTo(null);
     	
     	startScreen = new StartScreen();
-    	gameScreen = new Level();
+    	gameScreen = new Level(Properties.mapa1);
     	
 //    	startScreen.setSize(this.getWidth(),this.getHeight());
 //    	gameScreen.setSize(this.getWidth(),this.getHeight());

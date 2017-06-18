@@ -16,7 +16,7 @@ public class Player extends Field {
     /**
      * Zmienna przechowujaca liczbe punktow.
      */
-    static int points;
+    int points;
 
     /**
      * Konstruktor bezparametrowy tworzacy obiekt gracza i nadajacy mu poczatkowe wspolrzedne.
