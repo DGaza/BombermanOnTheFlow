@@ -29,8 +29,8 @@ public class Bomb extends Field {
 		//	System.out.println("wspolrzedne kamienia: x:"+level.walls.get(5*(level.numberOfFlames-1)*k).getX()+"y:"+level.flames.get(5*(level.numberOfFlames-1)*k).getY());
 		if(flamess.get(k).Kolizja(level.walls.get(i)))
 		{
-			System.out.println("wspolrzedne usunietego plomienia: x:"+flamess.get(k).getX()+"y:"+flamess.get(k).getY());
-			System.out.println("usuwam plomien o indeksie: x:"+k);
+//			System.out.println("wspolrzedne usunietego plomienia: x:"+flamess.get(k).getX()+"y:"+flamess.get(k).getY());
+//			System.out.println("usuwam plomien o indeksie: x:"+k);
 		flamess.remove(k);
 		collisions++;
 		k=0;
@@ -44,12 +44,13 @@ public class Bomb extends Field {
 		{
 		if(level.chests.get(i).getX()==level.fields.get(p).getX()&&level.chests.get(i).getY()==level.fields.get(p).getY())
 		{
-			System.out.println("chuj");
+		//	System.out.println("chuj");
 			level.fields.remove(p);
 		}
 		}
 		level.chests.remove(i);
-		
+		level.gracz.points+=100;
+		System.out.println("Liczba punktów: "+ level.gracz.points);
 		}
 		}
 		for(int i=0;i<level.creeps.size();i++)
@@ -57,6 +58,8 @@ public class Bomb extends Field {
 		if(flamess.get(k).Kolizja(level.creeps.get(i)))
 		{
 		level.creeps.remove(i);
+		level.gracz.points+=500;
+		System.out.println("Liczba punktów: "+ level.gracz.points);
 		}
 		}
 		}
@@ -76,22 +79,22 @@ void elo(Level level)
     		flamess.get(2).initPosition(Bomb.this.getX(),Bomb.this.getY()+50);
     		flamess.get(3).initPosition(Bomb.this.getX(), Bomb.this.getY()-50);
     		flamess.get(4).initPosition(Bomb.this.getX(), Bomb.this.getY());
-    		System.out.println("wspbomby w srodku bomby x:"+Bomb.this.getX()+"I Y:"+Bomb.this.getY());
-    		System.out.println("wspbomby w levelu x:"+level.bombs.get(0).getX()+"I Y:"+level.bombs.get(0).getY());
+    	//	System.out.println("wspbomby w srodku bomby x:"+Bomb.this.getX()+"I Y:"+Bomb.this.getY());
+    	//	System.out.println("wspbomby w levelu x:"+level.bombs.get(0).getX()+"I Y:"+level.bombs.get(0).getY());
 			checkCollisions(level);
-			System.out.println("kolizje:"+collisions);
+		//	System.out.println("kolizje:"+collisions);
 			level.flames.addAll(flamess);
 			level.fields.remove(level.fields.size()-level.numberOfBombs);
 			level.bombs.remove(level.bombs.get(0));
-			System.out.println(level.fields.size());
+		//	System.out.println(level.fields.size());
 			level.numberOfBombs--;
-			System.out.println("bomba znikla");
+		//	System.out.println("bomba znikla");
 			
 			class FlamesTask extends TimerTask {
 				public void run(){
 					for(int i=0;i<5-collisions;i++)
 					{
-						System.out.println("usuwam plomyczek o x:"+level.flames.get(0).getX()+"i y:"+level.flames.get(0).getY());
+				//		System.out.println("usuwam plomyczek o x:"+level.flames.get(0).getX()+"i y:"+level.flames.get(0).getY());
 						level.flames.remove(0);
 						
 					}
@@ -102,7 +105,7 @@ void elo(Level level)
 	
 		flamesTimer = new Timer();
 		flamesTimer.schedule(new FlamesTask(), 1000);
-		System.out.println("number of collisions:"+collisions);
+//		System.out.println("number of collisions:"+collisions);
 		level.repaint();
 		}
 	}

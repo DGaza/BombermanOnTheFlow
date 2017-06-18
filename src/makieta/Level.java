@@ -407,7 +407,7 @@ public class Level extends JPanel implements ActionListener,KeyListener {
     			bomb=true;	
         		bombs.add(newBomb);
     			fields.addAll(bombs);
-    			System.out.println("nowa bomba");
+    		//	System.out.println("nowa bomba");
 				bombs.get(0).elo(this);
     		}	
     		else{	
@@ -418,7 +418,7 @@ public class Level extends JPanel implements ActionListener,KeyListener {
     			else{
     				bomb=true;
     				bombs.add(newBomb);
-    				System.out.println("nowa bomba");
+    			//	System.out.println("nowa bomba");
     				fields.add(bombs.get(bombs.size()-1));
     				bombs.get(bombs.size()-1).elo(this);
     				

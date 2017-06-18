@@ -105,7 +105,6 @@ public class Creep extends Field {
 					y+=50;
 			}
 			level.repaint();
-			
 		}
 	}
 	moveTimer = new Timer();
