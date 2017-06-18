@@ -47,7 +47,7 @@ public class MainWindow extends JFrame {
     {
     	setTitle("Bomberman on the flow");
     	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    	setMinimumSize(new Dimension(Properties.GameScreenFrameWidth,Properties.GameScreenFrameHeight));
+    	setMinimumSize(new Dimension(Properties.FrameWidth,Properties.FrameHeight));
     	setLocationRelativeTo(null);
     	
     	startScreen = new StartScreen();

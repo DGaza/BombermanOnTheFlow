@@ -2,13 +2,16 @@ package makieta;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -24,9 +27,11 @@ public class StartScreen extends JPanel implements ActionListener, KeyListener
 	JButton HighScores= new JButton("High Scores");
 	JButton Exit= new JButton("Exit");
 	
-	/**
-	 * Zmienna przechowujaca pozycje startowa gracza w poziomie.
-	 */
+    /**
+     * Zmienna przechowujaca obrazek tla menu.
+     */
+    Image menuImage = new ImageIcon("menu.png").getImage();
+	
 	public StartScreen()
 	{
 		setLayout(null);
@@ -38,7 +43,7 @@ public class StartScreen extends JPanel implements ActionListener, KeyListener
 		HowToPlay.setBounds(Properties.HowToPlayButtonVerticalPosition, Properties.HowToPlayButtonHorizontalPosition, Properties.StartScreenButtonsWidth, Properties.StartScreenButtonsHeight);
 		HighScores.setBounds(Properties.HighScoresButtonVerticalPosition, Properties.HighScoresButtonHorizontalPosition, Properties.StartScreenButtonsWidth, Properties.StartScreenButtonsHeight);
 		Exit.setBounds(Properties.ExitButtonVerticalPosition, Properties.ExitButtonHorizontalPosition, Properties.StartScreenButtonsWidth, Properties.StartScreenButtonsHeight);
-		setSize(Properties.StartScreenFrameWidth, Properties.StartScreenFrameHeight);
+		setSize(Properties.FrameWidth, Properties.FrameHeight);
 //		setTitle(Properties.FrameTitle);
 		setVisible(true);
 //		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -118,6 +123,11 @@ public class StartScreen extends JPanel implements ActionListener, KeyListener
 		
 	}
 	
-	}
+    public void paintComponent(Graphics g){
+    super.paintComponent(g);
+    g.drawImage(menuImage,0,0,this.getWidth(), this.getHeight(), this);
+    }
+	
+}
 
 

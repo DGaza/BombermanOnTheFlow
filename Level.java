@@ -30,6 +30,7 @@ public class Level extends JPanel implements ActionListener,KeyListener {
 	/**
 	 * Obiekty klasy Image przechowujace obrazy.
 	 */
+	 private BufferedImage image;
 	 private BufferedImage image1;
 	 private BufferedImage image2;
 	 private BufferedImage image3;
@@ -38,7 +39,6 @@ public class Level extends JPanel implements ActionListener,KeyListener {
 	 private BufferedImage image6;
 	 private BufferedImage image7;
 	 private BufferedImage image8;
-	 private BufferedImage image;
 	 
 	 
 	 JButton EndGame= new JButton("End Game");
@@ -55,7 +55,8 @@ public class Level extends JPanel implements ActionListener,KeyListener {
 	 public int numberOfFlames=0;
 //	 private Timer moveTimer;
 	 int p=0;
-	 
+	 int scaleWidth=getSize().width/Properties.NumberOfFields;
+	 int scaleHeight=getSize().height/Properties.NumberOfFields;
 	 
 	
 	 /**
@@ -87,7 +88,6 @@ public class Level extends JPanel implements ActionListener,KeyListener {
 	  */
 	 public Level()
 	 {
-		 initPosition=true;
 		 bomb=false;
 		 createMap();
 		 time=new Timer(delay,this);
@@ -187,61 +187,70 @@ public class Level extends JPanel implements ActionListener,KeyListener {
 	{
 		
 	    Graphics2D g2 = (Graphics2D) g;
-	    for(int k=0;k<11;k++)
-	    {
-	    for (int i=0;i<11;i++)
-	    {
-	  //  if(Character.getNumericValue(Properties.mapa[k].charAt(i))==0||Character.getNumericValue(Properties.mapa[k].charAt(i))==3)
 	    	g2.setPaint(Color.green);
-	    	g2.fill(new Rectangle2D.Double(50*i,50*k,50,50));
-	    } 
-	    }
+	    	g2.fill(new Rectangle2D.Double(0, 0, getSize().width, getSize().height));
+
 	    
 	   	for(int i=0;i<fields.size();i++)
 	   	{
 	   		if (fields.get(i) instanceof Wall)
-	    		g.drawImage(image6, fields.get(i).getX(), fields.get(i).getY(), this);
+	    		g.drawImage(image6, 
+	    				fields.get(i).getX()/Properties.FieldWidth*getSize().width/Properties.NumberOfFields, 
+	    				fields.get(i).getY()/Properties.FieldHeight*getSize().height/Properties.NumberOfFields, 
+	    				getSize().width/Properties.NumberOfFields, 
+	    				getSize().height/Properties.NumberOfFields, 
+	    				this);
 	   		else if (fields.get(i) instanceof Chest)
-	    		g.drawImage(image7, fields.get(i).getX(), fields.get(i).getY(), this);
+	    		g.drawImage(image7, 
+	    				fields.get(i).getX()/Properties.FieldWidth*getSize().width/Properties.NumberOfFields, 
+	    				fields.get(i).getY()/Properties.FieldHeight*getSize().height/Properties.NumberOfFields, 
+	    				getSize().width/Properties.NumberOfFields, 
+	    				getSize().height/Properties.NumberOfFields, 
+	    				this);
 	    }
-	    
-	    if(initPosition){
-	    	g.drawImage(image1, Properties.PlayerStartPositionX, Properties.PlayerStartPositionY, this);
-	    	initPosition=false;
-	    }
-	    
+	    	    
 	    if(bomb==true)
 	    {
 	    	for(int i=0; i<fields.size(); i++)
 	    		if(fields.get(i) instanceof Bomb)
-	    			g.drawImage(image5, fields.get(i).getX(),fields.get(i).getY() , this);
+	    			g.drawImage(image5, 
+	    					fields.get(i).getX()/Properties.FieldWidth*getSize().width/Properties.NumberOfFields, 
+		    				fields.get(i).getY()/Properties.FieldHeight*getSize().height/Properties.NumberOfFields, 
+	    					getSize().width/Properties.NumberOfFields,
+	    					getSize().height/Properties.NumberOfFields,
+	    					this);
 	    }
 	  
 	   	for(int i=0;i<flames.size();i++)
 	   	{
-	    		g.drawImage(image8, flames.get(i).getX(), flames.get(i).getY(), this);
+	    		g.drawImage(image8, 
+	    				flames.get(i).getX()/Properties.FieldWidth*getSize().width/Properties.NumberOfFields, 
+	    				flames.get(i).getY()/Properties.FieldHeight*getSize().height/Properties.NumberOfFields, 
+    					getSize().width/Properties.NumberOfFields,
+    					getSize().height/Properties.NumberOfFields,
+	    				this);
 	    }
-	    g.drawImage(image ,gracz.getX(),gracz.getY(),this);
+	    
+	   	g.drawImage(image, 
+	   			gracz.getX()/Properties.FieldWidth*getSize().width/Properties.NumberOfFields,
+	   			gracz.getY()/Properties.FieldHeight*getSize().height/Properties.NumberOfFields, 
+				getSize().width/Properties.NumberOfFields,
+				getSize().height/Properties.NumberOfFields,
+	   			this);
 	
 		for(int i=0;i<creeps.size();i++)
     	{
-			g.drawImage(image, creeps.get(i).getX(), creeps.get(i).getY(), this);
+			g.drawImage(image, 
+					creeps.get(i).getX()/Properties.FieldWidth*getSize().width/Properties.NumberOfFields, 
+					creeps.get(i).getY()/Properties.FieldHeight*getSize().height/Properties.NumberOfFields, 
+					getSize().width/Properties.NumberOfFields,
+					getSize().height/Properties.NumberOfFields,
+					this);
     	}
+		
+		
 	}
 
-	public void init() {
-        image = new BufferedImage(50,50,2);
-    }
-    /**
-     * Metoda do wywolania metody tworzacej bufor na samym poczatku.
-     */
-    public void addNotify() {
-        super.addNotify();
-
-        this.init();
-    }
-	
-	
     @Override
     public void actionPerformed(ActionEvent e)
     {
@@ -467,6 +476,4 @@ public class Level extends JPanel implements ActionListener,KeyListener {
     	fields.add(gracz);
     	
     }
-    
-
 	}
