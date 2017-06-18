@@ -31,7 +31,7 @@ public class Creep extends Field {
 						brak_kolizji=false;
 					}
 				}
-				if(brak_kolizji)
+				if(brak_kolizji&&level.pause==false)
 					x+=50;
 
 			}
@@ -53,7 +53,8 @@ public class Creep extends Field {
 						brak_kolizji=false;
 					}
 				}
-				if(brak_kolizji)
+			
+				if(brak_kolizji&&level.pause==false)
 					x-=50;
 
 			}
@@ -75,7 +76,8 @@ public class Creep extends Field {
 						brak_kolizji=false;
 					}
 				}
-				if(brak_kolizji)
+				
+				if(brak_kolizji&&level.pause==false)
 					y-=50;
 
 			}
@@ -97,7 +99,8 @@ public class Creep extends Field {
 						brak_kolizji=false;
 					}
 				}
-				if(brak_kolizji)
+		
+				if(brak_kolizji&&level.pause==false)
 					y+=50;
 			}
 			level.repaint();

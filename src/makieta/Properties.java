@@ -50,6 +50,16 @@ public class Properties {
 	public static int NewGameButtonHorizontalPosition;
 
 	/**
+	 * Zmienna przechowujaca pozycje w pionie przycisku How To Play.
+	 */
+	public static int HowToPlayButtonVerticalPosition;
+
+	/**
+	 * Zmienna przechowujaca pozycje w poziomie przycisku How To Play.
+	 */
+	public static int HowToPlayButtonHorizontalPosition;
+
+	/**
 	 * Zmienna przechowujaca pozycje w pionie przycisku High Scores.
 	 */
 	public static int HighScoresButtonVerticalPosition;
@@ -178,6 +188,10 @@ public void load()
 				NewGameButtonVerticalPosition = Integer.parseInt(br.readLine());
 			else if (line.equals("#NewGameButtonHorizontalPosition"))
 				NewGameButtonHorizontalPosition = Integer.parseInt(br.readLine());
+			else if (line.equals("#HowToPlayButtonVerticalPosition"))
+				HowToPlayButtonVerticalPosition = Integer.parseInt(br.readLine());
+			else if (line.equals("#HowToPlayButtonHorizontalPosition"))
+				HowToPlayButtonHorizontalPosition = Integer.parseInt(br.readLine());
 			else if (line.equals("#HighScoresButtonVerticalPosition"))
 				HighScoresButtonVerticalPosition = Integer.parseInt(br.readLine());
 			else if (line.equals("#HighScoresButtonHorizontalPosition"))

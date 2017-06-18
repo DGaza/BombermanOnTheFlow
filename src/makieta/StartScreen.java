@@ -105,7 +105,7 @@ public class StartScreen extends JPanel implements ActionListener, KeyListener
 
         add(HighScores,gbc);
         
-        Exit= new JButton("Wyjúcie");
+        Exit= new JButton("Wyj≈ìcie");
         Exit.setPreferredSize(new Dimension(150, 40));
 		Exit.addActionListener(new ActionListener() {
             @Override
@@ -160,5 +160,3 @@ public class StartScreen extends JPanel implements ActionListener, KeyListener
     } 
 	
 }
-
-

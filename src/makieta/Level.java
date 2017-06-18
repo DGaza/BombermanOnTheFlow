@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.io.*; 
 import javax.swing.JPanel;
@@ -40,19 +41,20 @@ public class Level extends JPanel implements ActionListener,KeyListener {
 	 private BufferedImage image7;
 	 private BufferedImage image8;
 	 
-
-	 JButton YouLost;
+	 
+	
 	 boolean initPosition;
 	 boolean bomb;
 	 Player gracz=new Player();	
 	 private Timer time;
-//	 java.util.Timer bombTime;
 	 private int delay=8;
-//	 private int bombDelay=0;
 	 public int numberOfBombs=0;
 	 public int numberOfFlames=0;
-//	 private Timer moveTimer;
 	 int p=0;
+	 boolean pause=false;
+	 boolean move;
+
+	 
 	
 	 /**
 	  * Lista przechowujaca obiekty scian.
@@ -81,6 +83,7 @@ public class Level extends JPanel implements ActionListener,KeyListener {
 	 /**
 	  * Konstruktor bezparametrowy.
 	  */
+		
 	 public Level(String[] mapa)
 	 {
 		 bomb=false;
@@ -90,8 +93,6 @@ public class Level extends JPanel implements ActionListener,KeyListener {
 		 setFocusable(true);
 		 requestFocusInWindow();
 		 addKeyListener(this);
-
-	
 	try {
 		image = ImageIO.read(new File("front_side.png"));
 	} catch (IOException e) {
@@ -146,7 +147,7 @@ public class Level extends JPanel implements ActionListener,KeyListener {
 	{
 		
 	    Graphics2D g2 = (Graphics2D) g;
-	    	g2.setPaint(new Color(30,110,180));
+	    g2.setPaint(new Color(30,110,180));
 	    	g2.fill(new Rectangle2D.Double(0, 0, getSize().width, getSize().height));
 
 	    
@@ -245,145 +246,171 @@ public class Level extends JPanel implements ActionListener,KeyListener {
     	repaint();
     }
 
+    class AkcjaRunnable implements Runnable {
+       KeyEvent key;
 
+        public AkcjaRunnable(KeyEvent k) {
+            key = k;
+
+        }
+
+        public void run() {
+            if(move) akcja(key);
+        }
+    }
+public synchronized void akcja(KeyEvent e)
+{
+	move=false;
+	if(e.getKeyCode()==KeyEvent.VK_RIGHT)
+	{
+		changeImage(4);
+		boolean brak_kolizji=true;
+		for(int i=0;i<fields.size();i++)
+		{
+			if(gracz.prawaKolizja(fields.get(i))==true)
+			{
+				gracz.x=gracz.x;
+				brak_kolizji=false;
+		
+			}
+		}
+		for(int i=0;i<flames.size();i++)
+		{
+			if(gracz.prawaKolizja(flames.get(i))==true)
+			{
+				gracz.x=gracz.x;
+			}
+		}
+		if(brak_kolizji)
+			for(int j=0;j<50;j++)
+			{
+			gracz.x+=1;
+			repaint();
+			}
+	}
+
+
+	else if(e.getKeyCode()==KeyEvent.VK_LEFT)
+	{
+		changeImage(3);
+		boolean brak_kolizji=true;
+		for(int i=0;i<fields.size();i++)
+		{
+			if(gracz.lewaKolizja(fields.get(i))==true)
+			{
+				gracz.x=gracz.x;
+				brak_kolizji=false;
+			}
+		}
+		for(int i=0;i<flames.size();i++)
+		{
+			if(gracz.lewaKolizja(flames.get(i))==true)
+			{
+				gracz.x=gracz.x;
+			}
+		}
+		if(brak_kolizji)
+			gracz.x-=50;
+
+	}
+	
+	else if(e.getKeyCode()==KeyEvent.VK_UP)
+	{
+		changeImage(2);
+
+		boolean brak_kolizji=true;
+		for(int i=0;i<fields.size();i++)
+		{
+			if(gracz.gornaKolizja(fields.get(i))==true)
+			{
+				gracz.y=gracz.y;
+				brak_kolizji=false;
+			}
+		}
+		for(int i=0;i<flames.size();i++)
+		{
+			if(gracz.gornaKolizja(flames.get(i))==true)
+			{
+				gracz.x=gracz.x;
+			}
+		}
+		if(brak_kolizji)
+			gracz.y-=50;
+
+	}
+	else if (e.getKeyCode()==KeyEvent.VK_DOWN)
+	{
+		changeImage(1);
+		boolean brak_kolizji=true;
+		for(int i=0;i<fields.size();i++)
+		{
+			if(gracz.dolnaKolizja(fields.get(i))==true)
+			{
+				gracz.y=gracz.y;
+				brak_kolizji=false;
+			}
+		}
+		for(int i=0;i<flames.size();i++)
+		{
+			if(gracz.dolnaKolizja(flames.get(i))==true)
+			{
+				gracz.x=gracz.x;
+			}
+		}
+		if(brak_kolizji)
+			gracz.y+=50;
+
+	}
+	else if (e.getKeyCode()==KeyEvent.VK_SPACE)
+	{
+		numberOfBombs++;
+		Bomb newBomb=new Bomb(this);
+		newBomb.initPosition(gracz.getX(), gracz.getY());
+		
+		if (bombs.size()==0){
+			bomb=true;	
+    		bombs.add(newBomb);
+			fields.addAll(bombs);
+		//	System.out.println("nowa bomba");
+			bombs.get(0).elo(this);
+		}	
+		else{	
+			if((Math.abs(gracz.getX()-bombs.get(bombs.size()-1).getX())<50) && (Math.abs(gracz.getY()-bombs.get(bombs.size()-1).getY())<50))
+			{
+				numberOfBombs--;
+			}
+			else{
+				bomb=true;
+				bombs.add(newBomb);
+			//	System.out.println("nowa bomba");
+				fields.add(bombs.get(bombs.size()-1));
+				bombs.get(bombs.size()-1).elo(this);
+				
+			}
+		}
+	}
+}
     @Override
     public void keyPressed(KeyEvent e) {
-    	if(e.getKeyCode()==KeyEvent.VK_RIGHT)
-    	{
-    		changeImage(4);
-    		boolean brak_kolizji=true;
-    		for(int i=0;i<fields.size();i++)
-    		{
-    			if(gracz.prawaKolizja(fields.get(i))==true)
-    			{
-    				gracz.x=gracz.x;
-    				brak_kolizji=false;
-    		
-    			}
-    		}
-    		for(int i=0;i<flames.size();i++)
-    		{
-    			if(gracz.prawaKolizja(flames.get(i))==true)
-    			{
-    				gracz.x=gracz.x;
-    				YouLost=new JButton("Przegrales kurwo");
-    				YouLost.setBounds(700,500,500,100);
-    				this.add(YouLost);
-    			}
-    		}
-    		if(brak_kolizji)
-    			gracz.x+=50;
-    	}
+    	
+     if (e.getKeyCode() == KeyEvent.VK_P) {
 
+    		 if (!pause) {
+                 pause = true;
+                 repaint();
+             } else if (pause) {
+                 pause = false;
+                 repaint();
+             }
+        }
 
-    	else if(e.getKeyCode()==KeyEvent.VK_LEFT)
-    	{
-    		changeImage(3);
-    		boolean brak_kolizji=true;
-    		for(int i=0;i<fields.size();i++)
-    		{
-    			if(gracz.lewaKolizja(fields.get(i))==true)
-    			{
-    				gracz.x=gracz.x;
-    				brak_kolizji=false;
-    			}
-    		}
-    		for(int i=0;i<flames.size();i++)
-    		{
-    			if(gracz.lewaKolizja(flames.get(i))==true)
-    			{
-    				gracz.x=gracz.x;
-    				YouLost=new JButton("Przegrales kurwo");
-    				YouLost.setBounds(700,500,500,100);
-    				this.add(YouLost);
-    			}
-    		}
-    		if(brak_kolizji)
-    			gracz.x-=50;
+    	 if (!pause) {
 
-    	}
-		
-    	else if(e.getKeyCode()==KeyEvent.VK_UP)
-    	{
-    		changeImage(2);
-	
-    		boolean brak_kolizji=true;
-    		for(int i=0;i<fields.size();i++)
-    		{
-    			if(gracz.gornaKolizja(fields.get(i))==true)
-    			{
-    				gracz.y=gracz.y;
-    				brak_kolizji=false;
-    			}
-    		}
-    		for(int i=0;i<flames.size();i++)
-    		{
-    			if(gracz.gornaKolizja(flames.get(i))==true)
-    			{
-    				gracz.x=gracz.x;
-    				YouLost=new JButton("Przegrales kurwo");
-    				YouLost.setBounds(700,500,500,100);
-    				this.add(YouLost);
-    			}
-    		}
-    		if(brak_kolizji)
-    			gracz.y-=50;
-
-    	}
-    	else if (e.getKeyCode()==KeyEvent.VK_DOWN)
-    	{
-    		changeImage(1);
-    		boolean brak_kolizji=true;
-    		for(int i=0;i<fields.size();i++)
-    		{
-    			if(gracz.dolnaKolizja(fields.get(i))==true)
-    			{
-    				gracz.y=gracz.y;
-    				brak_kolizji=false;
-    			}
-    		}
-    		for(int i=0;i<flames.size();i++)
-    		{
-    			if(gracz.dolnaKolizja(flames.get(i))==true)
-    			{
-    				gracz.x=gracz.x;
-    				YouLost=new JButton("Przegrales kurwo");
-    				YouLost.setBounds(700,500,500,100);
-    				this.add(YouLost);
-    			}
-    		}
-    		if(brak_kolizji)
-    			gracz.y+=50;
-
-    	}
-    	else if (e.getKeyCode()==KeyEvent.VK_SPACE)
-    	{
-    		numberOfBombs++;
-    		Bomb newBomb=new Bomb(this);
-    		newBomb.initPosition(gracz.getX(), gracz.getY());
-    		
-    		if (bombs.size()==0){
-    			bomb=true;	
-        		bombs.add(newBomb);
-    			fields.addAll(bombs);
-    		//	System.out.println("nowa bomba");
-				bombs.get(0).elo(this);
-    		}	
-    		else{	
-    			if((Math.abs(gracz.getX()-bombs.get(bombs.size()-1).getX())<50) && (Math.abs(gracz.getY()-bombs.get(bombs.size()-1).getY())<50))
-    			{
-    				numberOfBombs--;
-    			}
-    			else{
-    				bomb=true;
-    				bombs.add(newBomb);
-    			//	System.out.println("nowa bomba");
-    				fields.add(bombs.get(bombs.size()-1));
-    				bombs.get(bombs.size()-1).elo(this);
-    				
-    			}
-    		}
-    	}
+            Runnable r = new AkcjaRunnable(e);
+            Thread pressT = new Thread(r);
+            pressT.start();
+        }
+    	 move=true;
     }
  
     
@@ -435,4 +462,8 @@ public class Level extends JPanel implements ActionListener,KeyListener {
     	fields.add(gracz);
     	
     }
+
+
+
+
 	}

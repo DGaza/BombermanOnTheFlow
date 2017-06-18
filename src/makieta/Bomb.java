@@ -52,7 +52,7 @@ public class Bomb extends Field {
 		}
 		level.chests.remove(i);
 		points+=100;
-		System.out.println("Liczba punktów: "+ points);
+		System.out.println("Liczba punktów: "+points);
 		}
 		}
 		for(int i=0;i<level.creeps.size();i++)
@@ -61,29 +61,29 @@ public class Bomb extends Field {
 		{
 		level.creeps.remove(i);
 		points+=500;
-		System.out.println("Liczba punktów: "+ points);
+		System.out.println("Liczba punktów: "+points);
 		if(level.creeps.size()==0)
-		{
-			class CompleteTask extends TimerTask {
-				public void run() {
-					levelCompleted++;
-					System.out.println("Level: "+ levelCompleted);
-					switch(levelCompleted){
-					case 1:
-					MainWindow.mainLayout.show(MainWindow.panels, "complete1");
-					break;
-					case 2:
-					MainWindow.mainLayout.show(MainWindow.panels, "complete2");
-					break;
-					case 3:
-					MainWindow.mainLayout.show(MainWindow.panels, "complete3");
-					break;
-				}
-				}
-			}
-			completeTimer = new Timer();
-			completeTimer.schedule(new CompleteTask(), 2000);
-		}
+			 	{
+			 			class CompleteTask extends TimerTask {
+			 				public void run() {
+			 					levelCompleted++;
+			 					System.out.println("Level: "+ levelCompleted);
+			 					switch(levelCompleted){
+			 					case 1:
+			 					MainWindow.mainLayout.show(MainWindow.panels, "complete1");
+			 					break;
+			 					case 2:
+			 					MainWindow.mainLayout.show(MainWindow.panels, "complete2");
+			 					break;
+								case 3:
+			 					MainWindow.mainLayout.show(MainWindow.panels, "complete3");
+			 					break;
+			 				}
+			 				}
+			 			}
+			 			completeTimer = new Timer();
+			 			completeTimer.schedule(new CompleteTask(), 2000);
+			 		}
 		}
 		}
 		}
@@ -118,7 +118,6 @@ void elo(Level level)
 				public void run(){
 					for(int i=0;i<5-collisions;i++)
 					{
-				//		System.out.println("usuwam plomyczek o x:"+level.flames.get(0).getX()+"i y:"+level.flames.get(0).getY());
 						level.flames.remove(0);
 						
 					}
@@ -128,7 +127,7 @@ void elo(Level level)
 			}
 	
 		flamesTimer = new Timer();
-		flamesTimer.schedule(new FlamesTask(), 1000);
+		flamesTimer.schedule(new FlamesTask(), 500);
 //		System.out.println("number of collisions:"+collisions);
 		level.repaint();
 		}

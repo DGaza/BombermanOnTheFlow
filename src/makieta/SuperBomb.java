@@ -114,10 +114,10 @@ void elo(Level level)
 			level.flames.addAll(flamessright);
 			level.flames.addAll(flamessup);
 			level.flames.addAll(flamessdown);
-			level.fields.remove(level.fields.size()-level.numberOfSuperBombs);
-			level.superbombs.remove(level.superbombs.get(0));
+		//	level.fields.remove(level.fields.size()-level.numberOfSuperBombs);
+		//	level.superbombs.remove(level.superbombs.get(0));
 			System.out.println(level.fields.size());
-			level.numberOfSuperBombs--;
+		//	level.numberOfSuperBombs--;
 			System.out.println("bomba znikla");
 			
 			class FlamesTask extends TimerTask {
