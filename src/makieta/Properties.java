@@ -50,16 +50,6 @@ public class Properties {
 	public static int NewGameButtonHorizontalPosition;
 
 	/**
-	 * Zmienna przechowujaca pozycje w pionie przycisku How To Play.
-	 */
-	public static int HowToPlayButtonVerticalPosition;
-
-	/**
-	 * Zmienna przechowujaca pozycje w poziomie przycisku How To Play.
-	 */
-	public static int HowToPlayButtonHorizontalPosition;
-
-	/**
 	 * Zmienna przechowujaca pozycje w pionie przycisku High Scores.
 	 */
 	public static int HighScoresButtonVerticalPosition;
@@ -137,7 +127,10 @@ public class Properties {
 	/**
 	 * Zmienna przechowujaca opis poziomu
 	 */
-	public static String[] mapa=new String[11];
+	public static String[] mapa1=new String[11];
+	public static String[] mapa2=new String[11];
+	public static String[] mapa3=new String[11];
+	
 
 
 private static final String FILENAME = "config.txt";
@@ -185,10 +178,6 @@ public void load()
 				NewGameButtonVerticalPosition = Integer.parseInt(br.readLine());
 			else if (line.equals("#NewGameButtonHorizontalPosition"))
 				NewGameButtonHorizontalPosition = Integer.parseInt(br.readLine());
-			else if (line.equals("#HowToPlayButtonVerticalPosition"))
-				HowToPlayButtonVerticalPosition = Integer.parseInt(br.readLine());
-			else if (line.equals("#HowToPlayButtonHorizontalPosition"))
-				HowToPlayButtonHorizontalPosition = Integer.parseInt(br.readLine());
 			else if (line.equals("#HighScoresButtonVerticalPosition"))
 				HighScoresButtonVerticalPosition = Integer.parseInt(br.readLine());
 			else if (line.equals("#HighScoresButtonHorizontalPosition"))
@@ -219,11 +208,27 @@ public void load()
 				PlayerStartPositionY=Integer.parseInt(br.readLine());
 			else if (line.equals("#NumberOfFields"))
 				NumberOfFields=Integer.parseInt(br.readLine());
-			else if(line.equals("#MapConfiguration"))
+			else if(line.equals("#MapConfiguration1"))
 			{
 			for(int i=0;i<NumberOfFields;i++)
 			{
-			mapa[i]=br.readLine();
+			mapa1[i]=br.readLine();
+			}
+			
+			}
+			else if(line.equals("#MapConfiguration2"))
+			{
+			for(int i=0;i<NumberOfFields;i++)
+			{
+			mapa2[i]=br.readLine();
+			}
+			
+			}
+			else if(line.equals("#MapConfiguration3"))
+			{
+			for(int i=0;i<NumberOfFields;i++)
+			{
+			mapa3[i]=br.readLine();
 			}
 			
 			}
@@ -231,7 +236,7 @@ public void load()
 		}
 		 for(int i=0;i<NumberOfFields;i++)
 		 {
-			System.out.println(mapa[i]);
+			System.out.println(mapa1[i]);
 		 }
 		}
 	

@@ -40,9 +40,7 @@ public class Level extends JPanel implements ActionListener,KeyListener {
 	 private BufferedImage image7;
 	 private BufferedImage image8;
 	 
-	 
-	 JButton EndGame= new JButton("End Game");
-	 JButton Pause= new JButton("Pause");
+
 	 JButton YouLost;
 	 boolean initPosition;
 	 boolean bomb;
@@ -55,9 +53,6 @@ public class Level extends JPanel implements ActionListener,KeyListener {
 	 public int numberOfFlames=0;
 //	 private Timer moveTimer;
 	 int p=0;
-	 int scaleWidth=getSize().width/Properties.NumberOfFields;
-	 int scaleHeight=getSize().height/Properties.NumberOfFields;
-	 
 	
 	 /**
 	  * Lista przechowujaca obiekty scian.
@@ -86,52 +81,16 @@ public class Level extends JPanel implements ActionListener,KeyListener {
 	 /**
 	  * Konstruktor bezparametrowy.
 	  */
-	 public Level()
+	 public Level(String[] mapa)
 	 {
 		 bomb=false;
-		 createMap();
+		 createMap(mapa);
 		 time=new Timer(delay,this);
 		 time.start();
-		 add(EndGame);
-		 add(Pause);
-		 EndGame.setBounds(Properties.EndGameButtonVerticalPosition, Properties.EndGameButtonHorizontalPosition, Properties.GameScreenButtonsWidth, Properties.GameScreenButtonsHeight);
-		 Pause.setBounds(Properties.PauseButtonVerticalPosition, Properties.PauseButtonHorizontalPosition, Properties.GameScreenButtonsWidth, Properties.GameScreenButtonsHeight);
-		 EndGame.addActionListener(new ActionListener() {
-	            @Override
-	            public void actionPerformed(ActionEvent e) {
-	                MainWindow.mainLayout.show(MainWindow.panels, "1");
-	            }
-	        });
-		 Pause.addActionListener(this);
 		 setFocusable(true);
 		 requestFocusInWindow();
 		 addKeyListener(this);
-		 
-		 
-		 
-		/* java.util.Timer explosionTimerr;
-		 explosionTimerr = new java.util.Timer();
-			class ExplodeTask extends TimerTask {
-				public void run() {
-					List<Flame> toDelete = new LinkedList<Flame>();
-					for(Flame f : flames){
-						if(System.currentTimeMillis()-f.instantiated>1000){
-							toDelete.add(f);
-						}
-					}
-					for(Flame f: toDelete){
-						flames.remove(f);
-					}
-					toDelete.clear();
-					
-					
-					
-					
-					
-			}
-			}
-		
-		explosionTimerr.schedule(new ExplodeTask(), 1000,1000);*/
+
 	
 	try {
 		image = ImageIO.read(new File("front_side.png"));
@@ -187,7 +146,7 @@ public class Level extends JPanel implements ActionListener,KeyListener {
 	{
 		
 	    Graphics2D g2 = (Graphics2D) g;
-	    	g2.setPaint(Color.green);
+	    	g2.setPaint(new Color(30,110,180));
 	    	g2.fill(new Rectangle2D.Double(0, 0, getSize().width, getSize().height));
 
 	    
@@ -434,7 +393,7 @@ public class Level extends JPanel implements ActionListener,KeyListener {
     @Override
     public void keyTyped(KeyEvent e) {
     }
-    public void createMap()
+    public void createMap(String[] mapa)
     {	
     	int w=0;
     	int c=0;
@@ -451,19 +410,19 @@ public class Level extends JPanel implements ActionListener,KeyListener {
     	
     		for (int i=0;i<11;i++)
     		{
-    			if(Character.getNumericValue(Properties.mapa[k].charAt(i))==1)
+    			if(Character.getNumericValue(mapa[k].charAt(i))==1)
     			{
     				walls.add(new Wall());
     				walls.get(w).initPosition(50*i,50*k);
     				w++;
     			}
-    			if(Character.getNumericValue(Properties.mapa[k].charAt(i))==2)
+    			if(Character.getNumericValue(mapa[k].charAt(i))==2)
     			{
     				chests.add(new Chest());
     				chests.get(c).initPosition(50*i,50*k);
     				c++;
     			}
-    			if(Character.getNumericValue(Properties.mapa[k].charAt(i))==3)
+    			if(Character.getNumericValue(mapa[k].charAt(i))==3)
     			{
     				creeps.add(new Creep(this));
     				creeps.get(cr).initPosition(50*i,50*k);

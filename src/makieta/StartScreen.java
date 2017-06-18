@@ -1,11 +1,14 @@
 package makieta;
 
-import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.GridLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Image;
-import java.awt.Toolkit;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -13,7 +16,6 @@ import java.awt.event.KeyListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 /**
@@ -22,10 +24,9 @@ import javax.swing.JPanel;
 public class StartScreen extends JPanel implements ActionListener, KeyListener
 {
 	
-	JButton NewGame=new JButton("New Game");
-	JButton HowToPlay= new JButton("How to play");
-	JButton HighScores= new JButton("High Scores");
-	JButton Exit= new JButton("Exit");
+	JButton NewGame;
+	JButton HighScores;
+	JButton Exit;
 	
     /**
      * Zmienna przechowujaca obrazek tla menu.
@@ -34,26 +35,22 @@ public class StartScreen extends JPanel implements ActionListener, KeyListener
 	
 	public StartScreen()
 	{
-		setLayout(null);
-		add(NewGame);
-		add(HowToPlay);
-		add(HighScores);
-		add(Exit);
-		NewGame.setBounds(Properties.NewGameButtonVerticalPosition, Properties.NewGameButtonHorizontalPosition, Properties.StartScreenButtonsWidth, Properties.StartScreenButtonsHeight);
-		HowToPlay.setBounds(Properties.HowToPlayButtonVerticalPosition, Properties.HowToPlayButtonHorizontalPosition, Properties.StartScreenButtonsWidth, Properties.StartScreenButtonsHeight);
-		HighScores.setBounds(Properties.HighScoresButtonVerticalPosition, Properties.HighScoresButtonHorizontalPosition, Properties.StartScreenButtonsWidth, Properties.StartScreenButtonsHeight);
-		Exit.setBounds(Properties.ExitButtonVerticalPosition, Properties.ExitButtonHorizontalPosition, Properties.StartScreenButtonsWidth, Properties.StartScreenButtonsHeight);
-		setSize(Properties.FrameWidth, Properties.FrameHeight);
-//		setTitle(Properties.FrameTitle);
-		setVisible(true);
-//		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//		setLocationRelativeTo(null);
+		setLayout(new GridBagLayout());
+		
+		GridBagConstraints gbc;
+		
+		gbc = new GridBagConstraints();
+        gbc.insets= new Insets(5,5,50,5);
         
+        gbc.weighty=1;
+        gbc.anchor=GridBagConstraints.SOUTH;
+        
+        NewGame = new JButton("New Game");
 		NewGame.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                MainWindow.mainLayout.show(MainWindow.panels, "2");
-                MainWindow.gameScreen.addKeyListener(new KeyListener() {
+                MainWindow.mainLayout.show(MainWindow.panels, "level1");
+                MainWindow.level1.addKeyListener(new KeyListener() {
                     @Override
                     public void keyTyped(KeyEvent e) {
 
@@ -70,36 +67,70 @@ public class StartScreen extends JPanel implements ActionListener, KeyListener
                     }
                 }); 
                 
-                MainWindow.gameScreen.setFocusable(true);
-                MainWindow.gameScreen.requestFocusInWindow();
+                MainWindow.level1.setFocusable(true);
+                MainWindow.level1.requestFocusInWindow();
             }
         });
+		
+		gbc.gridx=0;
+        gbc.gridy=10;
+        gbc.ipadx=10;
+        gbc.ipady=10;
+
+        NewGame.setForeground(Color.white);
+        NewGame.setPreferredSize(new Dimension(150, 40));
+        NewGame.setFont(new Font("Calibri", Font.PLAIN, 16));
+        NewGame.setBackground(new Color(30,10,180));
+        NewGame.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		
+        gbc.fill=GridBagConstraints.HORIZONTAL;
+
+        add(NewGame,gbc);
+        
+        HighScores= new JButton("Najlepsze Wyniki");
+        HighScores.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+
+        HighScores.setForeground(Color.white);
+        HighScores.setPreferredSize(new Dimension(150, 40));
+        HighScores.setFont(new Font("Calibri", Font.PLAIN, 16));
+        HighScores.setBackground(new Color(30,10,180));
+        HighScores.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        
+        gbc.gridx=1;
+
+        add(HighScores,gbc);
+        
+        Exit= new JButton("Wyjœcie");
+        Exit.setPreferredSize(new Dimension(150, 40));
+		Exit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {	               
+            	System.exit(0);
+            }
+        });
+		
+		Exit.setForeground(Color.white);
+        Exit.setFont(new Font("Calibri", Font.PLAIN, 16));
+        Exit.setBackground(new Color(30,10,180));
+        Exit.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+	
+        gbc.gridx=2;
+
+        add(Exit,gbc);
+        setVisible(true);
+	
 	}
 
 	
-	public void actionPerformed(ActionEvent e)
-	{
-/*	Object Source=e.getSource();
-	if(Source==NewGame)
-	{
-	dispose();
-	JFrame frame = new JFrame();
-	frame.setLayout(new GridLayout(1,1));
-	frame.setSize(Properties.StartScreenFrameWidth, Properties.StartScreenFrameHeight);
-	frame.setTitle(Properties.FrameTitle);
-	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	frame.setLocationRelativeTo(null);
-	
-	frame.setMinimumSize(new Dimension(Properties.StartScreenFrameWidth, Properties.StartScreenFrameHeight));
-	frame.setPreferredSize(new Dimension(Properties.StartScreenFrameWidth, Properties.StartScreenFrameHeight));
-	frame.setMaximumSize(new Dimension(Properties.StartScreenFrameWidth, Properties.StartScreenFrameHeight));
-	
-	
-	Level level = new Level();
-	frame.add(level, 0);
-	frame.setVisible(true);
-	}
-	*/	
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 
 
