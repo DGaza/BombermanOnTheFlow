@@ -17,14 +17,14 @@ public class makieta {
 	 */
 	makieta()
 	{
-	StartScreen screen=new StartScreen();
+		MainWindow window = new MainWindow();
 	}
 
 	/**
 	 * Metoda main.
 	 */
-	public static void main(String[] args) {
-
+	public static void main(String[] args) 
+	{
 		Properties p=new Properties();		
 		makieta app=new makieta();
 	}

@@ -96,11 +96,18 @@ public class Level extends JPanel implements ActionListener,KeyListener {
 		 add(Pause);
 		 EndGame.setBounds(Properties.EndGameButtonVerticalPosition, Properties.EndGameButtonHorizontalPosition, Properties.GameScreenButtonsWidth, Properties.GameScreenButtonsHeight);
 		 Pause.setBounds(Properties.PauseButtonVerticalPosition, Properties.PauseButtonHorizontalPosition, Properties.GameScreenButtonsWidth, Properties.GameScreenButtonsHeight);
-		 EndGame.addActionListener(this);
+		 EndGame.addActionListener(new ActionListener() {
+	            @Override
+	            public void actionPerformed(ActionEvent e) {
+	                MainWindow.mainLayout.show(MainWindow.panels, "1");
+	            }
+	        });
 		 Pause.addActionListener(this);
 		 setFocusable(true);
 		 requestFocusInWindow();
 		 addKeyListener(this);
+		 
+		 
 		 
 		/* java.util.Timer explosionTimerr;
 		 explosionTimerr = new java.util.Timer();
@@ -220,7 +227,6 @@ public class Level extends JPanel implements ActionListener,KeyListener {
     	{
 			g.drawImage(image, creeps.get(i).getX(), creeps.get(i).getY(), this);
     	}
-	
 	}
 
 	public void init() {
@@ -292,7 +298,6 @@ public class Level extends JPanel implements ActionListener,KeyListener {
     			if(gracz.prawaKolizja(flames.get(i))==true)
     			{
     				gracz.x=gracz.x;
-    				brak_kolizji=false;
     				YouLost=new JButton("Przegrales kurwo");
     				YouLost.setBounds(700,500,500,100);
     				this.add(YouLost);
@@ -320,7 +325,6 @@ public class Level extends JPanel implements ActionListener,KeyListener {
     			if(gracz.lewaKolizja(flames.get(i))==true)
     			{
     				gracz.x=gracz.x;
-    				brak_kolizji=false;
     				YouLost=new JButton("Przegrales kurwo");
     				YouLost.setBounds(700,500,500,100);
     				this.add(YouLost);
@@ -349,7 +353,6 @@ public class Level extends JPanel implements ActionListener,KeyListener {
     			if(gracz.gornaKolizja(flames.get(i))==true)
     			{
     				gracz.x=gracz.x;
-    				brak_kolizji=false;
     				YouLost=new JButton("Przegrales kurwo");
     				YouLost.setBounds(700,500,500,100);
     				this.add(YouLost);
@@ -376,7 +379,6 @@ public class Level extends JPanel implements ActionListener,KeyListener {
     			if(gracz.dolnaKolizja(flames.get(i))==true)
     			{
     				gracz.x=gracz.x;
-    				brak_kolizji=false;
     				YouLost=new JButton("Przegrales kurwo");
     				YouLost.setBounds(700,500,500,100);
     				this.add(YouLost);

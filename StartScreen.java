@@ -3,6 +3,7 @@ package makieta;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -15,14 +16,13 @@ import javax.swing.JPanel;
 /**
  * Klasa tworzaca okno startowe.
  */
-public class StartScreen extends JFrame implements ActionListener, KeyListener
+public class StartScreen extends JPanel implements ActionListener, KeyListener
 {
 	
 	JButton NewGame=new JButton("New Game");
 	JButton HowToPlay= new JButton("How to play");
 	JButton HighScores= new JButton("High Scores");
 	JButton Exit= new JButton("Exit");
-	JPanel panel=new JPanel();
 	
 	/**
 	 * Zmienna przechowujaca pozycje startowa gracza w poziomie.
@@ -39,24 +39,48 @@ public class StartScreen extends JFrame implements ActionListener, KeyListener
 		HighScores.setBounds(Properties.HighScoresButtonVerticalPosition, Properties.HighScoresButtonHorizontalPosition, Properties.StartScreenButtonsWidth, Properties.StartScreenButtonsHeight);
 		Exit.setBounds(Properties.ExitButtonVerticalPosition, Properties.ExitButtonHorizontalPosition, Properties.StartScreenButtonsWidth, Properties.StartScreenButtonsHeight);
 		setSize(Properties.StartScreenFrameWidth, Properties.StartScreenFrameHeight);
-		setTitle(Properties.FrameTitle);
+//		setTitle(Properties.FrameTitle);
 		setVisible(true);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setLocationRelativeTo(null);
-		NewGame.addActionListener(this);
-		
-}
+//		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		setLocationRelativeTo(null);
+        
+		NewGame.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                MainWindow.mainLayout.show(MainWindow.panels, "2");
+                MainWindow.gameScreen.addKeyListener(new KeyListener() {
+                    @Override
+                    public void keyTyped(KeyEvent e) {
+
+                    }
+
+                    @Override
+                    public void keyPressed(KeyEvent e) {
+   
+                    }
+
+                    @Override
+                    public void keyReleased(KeyEvent e) {
+
+                    }
+                }); 
+                
+                MainWindow.gameScreen.setFocusable(true);
+                MainWindow.gameScreen.requestFocusInWindow();
+            }
+        });
+	}
 
 	
 	public void actionPerformed(ActionEvent e)
 	{
-	Object Source=e.getSource();
+/*	Object Source=e.getSource();
 	if(Source==NewGame)
 	{
 	dispose();
 	JFrame frame = new JFrame();
 	frame.setLayout(new GridLayout(1,1));
-//	frame.setSize(Properties.StartScreenFrameWidth, Properties.StartScreenFrameHeight);
+	frame.setSize(Properties.StartScreenFrameWidth, Properties.StartScreenFrameHeight);
 	frame.setTitle(Properties.FrameTitle);
 	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	frame.setLocationRelativeTo(null);
@@ -66,12 +90,11 @@ public class StartScreen extends JFrame implements ActionListener, KeyListener
 	frame.setMaximumSize(new Dimension(Properties.StartScreenFrameWidth, Properties.StartScreenFrameHeight));
 	
 	
-	
 	Level level = new Level();
 	frame.add(level, 0);
 	frame.setVisible(true);
 	}
-	
+	*/	
 	}
 
 
