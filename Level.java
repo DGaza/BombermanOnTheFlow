@@ -30,7 +30,6 @@ public class Level extends JPanel implements ActionListener,KeyListener {
 	/**
 	 * Obiekty klasy Image przechowujace obrazy.
 	 */
-	 private BufferedImage image;
 	 private BufferedImage image1;
 	 private BufferedImage image2;
 	 private BufferedImage image3;
@@ -39,24 +38,25 @@ public class Level extends JPanel implements ActionListener,KeyListener {
 	 private BufferedImage image6;
 	 private BufferedImage image7;
 	 private BufferedImage image8;
+	 private BufferedImage image;
+	 private BufferedImage pauza;
 	 
 	 
 	 JButton EndGame= new JButton("End Game");
-	 JButton Pause= new JButton("Pause");
+	
 	 JButton YouLost;
 	 boolean initPosition;
 	 boolean bomb;
+	 boolean superbomb;
+	 boolean superbombbonus=false;
+	 boolean pause=false;
 	 Player gracz=new Player();	
 	 private Timer time;
-//	 java.util.Timer bombTime;
-	 private int delay=8;
-//	 private int bombDelay=0;
+	 private int delay=1;
 	 public int numberOfBombs=0;
+	 public int numberOfSuperBombs=0;
 	 public int numberOfFlames=0;
-//	 private Timer moveTimer;
-	 int p=0;
-	 int scaleWidth=getSize().width/Properties.NumberOfFields;
-	 int scaleHeight=getSize().height/Properties.NumberOfFields;
+	 
 	 
 	
 	 /**
@@ -73,6 +73,7 @@ public class Level extends JPanel implements ActionListener,KeyListener {
 	  * Lista przechowujaca obiekty bomb.
 	  */
 	 public ArrayList<Bomb> bombs;
+	 public ArrayList<SuperBomb> superbombs;
 	 
 	 public ArrayList<Flame> flames;
 	 
@@ -86,52 +87,20 @@ public class Level extends JPanel implements ActionListener,KeyListener {
 	 /**
 	  * Konstruktor bezparametrowy.
 	  */
+	 
 	 public Level()
 	 {
+		 initPosition=true;
 		 bomb=false;
 		 createMap();
 		 time=new Timer(delay,this);
 		 time.start();
 		 add(EndGame);
-		 add(Pause);
 		 EndGame.setBounds(Properties.EndGameButtonVerticalPosition, Properties.EndGameButtonHorizontalPosition, Properties.GameScreenButtonsWidth, Properties.GameScreenButtonsHeight);
-		 Pause.setBounds(Properties.PauseButtonVerticalPosition, Properties.PauseButtonHorizontalPosition, Properties.GameScreenButtonsWidth, Properties.GameScreenButtonsHeight);
-		 EndGame.addActionListener(new ActionListener() {
-	            @Override
-	            public void actionPerformed(ActionEvent e) {
-	                MainWindow.mainLayout.show(MainWindow.panels, "1");
-	            }
-	        });
-		 Pause.addActionListener(this);
+		 EndGame.addActionListener(this);
 		 setFocusable(true);
 		 requestFocusInWindow();
 		 addKeyListener(this);
-		 
-		 
-		 
-		/* java.util.Timer explosionTimerr;
-		 explosionTimerr = new java.util.Timer();
-			class ExplodeTask extends TimerTask {
-				public void run() {
-					List<Flame> toDelete = new LinkedList<Flame>();
-					for(Flame f : flames){
-						if(System.currentTimeMillis()-f.instantiated>1000){
-							toDelete.add(f);
-						}
-					}
-					for(Flame f: toDelete){
-						flames.remove(f);
-					}
-					toDelete.clear();
-					
-					
-					
-					
-					
-			}
-			}
-		
-		explosionTimerr.schedule(new ExplodeTask(), 1000,1000);*/
 	
 	try {
 		image = ImageIO.read(new File("front_side.png"));
@@ -179,78 +148,71 @@ public class Level extends JPanel implements ActionListener,KeyListener {
 	} catch (IOException e) {
 		e.printStackTrace();
 	}
+	try {
+		pauza = ImageIO.read(new File("pauza.png"));
+	} catch (IOException e) {
+		e.printStackTrace();
+	}
 	
 	}
 	 
-
 	public void paintComponent(Graphics g)
 	{
 		
 	    Graphics2D g2 = (Graphics2D) g;
+	    for(int k=0;k<11;k++)
+	    {
+	    for (int i=0;i<11;i++)
+	    {
+	  //  if(Character.getNumericValue(Properties.mapa[k].charAt(i))==0||Character.getNumericValue(Properties.mapa[k].charAt(i))==3)
 	    	g2.setPaint(Color.green);
-	    	g2.fill(new Rectangle2D.Double(0, 0, getSize().width, getSize().height));
-
+	    	g2.fill(new Rectangle2D.Double(50*i,50*k,50,50));
+	    } 
+	    }
 	    
 	   	for(int i=0;i<fields.size();i++)
 	   	{
 	   		if (fields.get(i) instanceof Wall)
-	    		g.drawImage(image6, 
-	    				fields.get(i).getX()/Properties.FieldWidth*getSize().width/Properties.NumberOfFields, 
-	    				fields.get(i).getY()/Properties.FieldHeight*getSize().height/Properties.NumberOfFields, 
-	    				getSize().width/Properties.NumberOfFields, 
-	    				getSize().height/Properties.NumberOfFields, 
-	    				this);
+	    		g.drawImage(image6, fields.get(i).getX(), fields.get(i).getY(), this);
 	   		else if (fields.get(i) instanceof Chest)
-	    		g.drawImage(image7, 
-	    				fields.get(i).getX()/Properties.FieldWidth*getSize().width/Properties.NumberOfFields, 
-	    				fields.get(i).getY()/Properties.FieldHeight*getSize().height/Properties.NumberOfFields, 
-	    				getSize().width/Properties.NumberOfFields, 
-	    				getSize().height/Properties.NumberOfFields, 
-	    				this);
+	    		g.drawImage(image7, fields.get(i).getX(), fields.get(i).getY(), this);
 	    }
-	    	    
+	    
+	    if(initPosition){
+	    	g.drawImage(image1, Properties.PlayerStartPositionX, Properties.PlayerStartPositionY, this);
+	    	initPosition=false;
+	    }
+	    
+	   
+	    
 	    if(bomb==true)
 	    {
 	    	for(int i=0; i<fields.size(); i++)
 	    		if(fields.get(i) instanceof Bomb)
-	    			g.drawImage(image5, 
-	    					fields.get(i).getX()/Properties.FieldWidth*getSize().width/Properties.NumberOfFields, 
-		    				fields.get(i).getY()/Properties.FieldHeight*getSize().height/Properties.NumberOfFields, 
-	    					getSize().width/Properties.NumberOfFields,
-	    					getSize().height/Properties.NumberOfFields,
-	    					this);
+	    			g.drawImage(image5, fields.get(i).getX(),fields.get(i).getY() , this);
+	    }
+	    if(superbomb==true)
+	    {
+	    	for(int i=0; i<fields.size(); i++)
+	    		if(fields.get(i) instanceof SuperBomb)
+	    			g.drawImage(image5, fields.get(i).getX(),fields.get(i).getY() , this);
 	    }
 	  
 	   	for(int i=0;i<flames.size();i++)
 	   	{
-	    		g.drawImage(image8, 
-	    				flames.get(i).getX()/Properties.FieldWidth*getSize().width/Properties.NumberOfFields, 
-	    				flames.get(i).getY()/Properties.FieldHeight*getSize().height/Properties.NumberOfFields, 
-    					getSize().width/Properties.NumberOfFields,
-    					getSize().height/Properties.NumberOfFields,
-	    				this);
+	    		g.drawImage(image8, flames.get(i).getX(), flames.get(i).getY(), this);
 	    }
-	    
-	   	g.drawImage(image, 
-	   			gracz.getX()/Properties.FieldWidth*getSize().width/Properties.NumberOfFields,
-	   			gracz.getY()/Properties.FieldHeight*getSize().height/Properties.NumberOfFields, 
-				getSize().width/Properties.NumberOfFields,
-				getSize().height/Properties.NumberOfFields,
-	   			this);
+	    g.drawImage(image ,gracz.getX(),gracz.getY(),this);
 	
 		for(int i=0;i<creeps.size();i++)
     	{
-			g.drawImage(image, 
-					creeps.get(i).getX()/Properties.FieldWidth*getSize().width/Properties.NumberOfFields, 
-					creeps.get(i).getY()/Properties.FieldHeight*getSize().height/Properties.NumberOfFields, 
-					getSize().width/Properties.NumberOfFields,
-					getSize().height/Properties.NumberOfFields,
-					this);
+			g.drawImage(image, creeps.get(i).getX(), creeps.get(i).getY(), this);
     	}
 		
-		
 	}
-
+	
+	
+	
     @Override
     public void actionPerformed(ActionEvent e)
     {
@@ -307,6 +269,7 @@ public class Level extends JPanel implements ActionListener,KeyListener {
     			if(gracz.prawaKolizja(flames.get(i))==true)
     			{
     				gracz.x=gracz.x;
+    				brak_kolizji=false;
     				YouLost=new JButton("Przegrales kurwo");
     				YouLost.setBounds(700,500,500,100);
     				this.add(YouLost);
@@ -314,6 +277,18 @@ public class Level extends JPanel implements ActionListener,KeyListener {
     		}
     		if(brak_kolizji)
     			gracz.x+=50;
+    		/*	for(int i=0;i<50;i++)
+    			{
+    			gracz.x+=1;
+    			repaint();
+    			try {
+					Thread.sleep(10);
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+    			
+    			}*/
     	}
 
 
@@ -334,6 +309,7 @@ public class Level extends JPanel implements ActionListener,KeyListener {
     			if(gracz.lewaKolizja(flames.get(i))==true)
     			{
     				gracz.x=gracz.x;
+    				brak_kolizji=false;
     				YouLost=new JButton("Przegrales kurwo");
     				YouLost.setBounds(700,500,500,100);
     				this.add(YouLost);
@@ -362,6 +338,7 @@ public class Level extends JPanel implements ActionListener,KeyListener {
     			if(gracz.gornaKolizja(flames.get(i))==true)
     			{
     				gracz.x=gracz.x;
+    				brak_kolizji=false;
     				YouLost=new JButton("Przegrales kurwo");
     				YouLost.setBounds(700,500,500,100);
     				this.add(YouLost);
@@ -388,6 +365,7 @@ public class Level extends JPanel implements ActionListener,KeyListener {
     			if(gracz.dolnaKolizja(flames.get(i))==true)
     			{
     				gracz.x=gracz.x;
+    				brak_kolizji=false;
     				YouLost=new JButton("Przegrales kurwo");
     				YouLost.setBounds(700,500,500,100);
     				this.add(YouLost);
@@ -397,14 +375,47 @@ public class Level extends JPanel implements ActionListener,KeyListener {
     			gracz.y+=50;
 
     	}
+    	else if(e.getKeyCode()==KeyEvent.VK_P)
+    	{
+    		pause=!pause;
+    	}
     	else if (e.getKeyCode()==KeyEvent.VK_SPACE)
     	{
+    		if(superbombbonus)
+    		{
+    			numberOfSuperBombs++;
+        		SuperBomb newBomb=new SuperBomb(this);
+        		newBomb.initPosition(gracz.getX(), gracz.getY());
+        		
+        		if (superbombs.size()==0){
+        			superbomb=true;
+            		superbombs.add(newBomb);
+        			fields.addAll(superbombs);
+        			System.out.println("nowa bomba");
+    				superbombs.get(0).elo(this);
+        		}	
+        		else{	
+        			if((Math.abs(gracz.getX()-superbombs.get(bombs.size()-1).getX())<50) && (Math.abs(gracz.getY()-superbombs.get(superbombs.size()-1).getY())<50))
+        			{
+        				numberOfSuperBombs--;
+        			}
+        			else{
+        				superbomb=true;
+        				superbombs.add(newBomb);
+        				System.out.println("nowa bomba");
+        				fields.add(superbombs.get(superbombs.size()-1));
+        				superbombs.get(superbombs.size()-1).elo(this);
+        				
+        			}
+        		}
+    		}
+    		else{
     		numberOfBombs++;
     		Bomb newBomb=new Bomb(this);
     		newBomb.initPosition(gracz.getX(), gracz.getY());
     		
     		if (bombs.size()==0){
-    			bomb=true;	
+    			bomb=true;
         		bombs.add(newBomb);
     			fields.addAll(bombs);
     			System.out.println("nowa bomba");
@@ -425,6 +436,7 @@ public class Level extends JPanel implements ActionListener,KeyListener {
     			}
     		}
     	}
+    	}
     }
  
     
@@ -443,6 +455,7 @@ public class Level extends JPanel implements ActionListener,KeyListener {
     	walls = new ArrayList<Wall>();
     	chests = new ArrayList<Chest>();
     	bombs = new ArrayList<Bomb>();
+    	superbombs= new ArrayList<SuperBomb>();
     	flames= new ArrayList<Flame>();
     	fields=new ArrayList<Field>();
     	creeps = new ArrayList<Creep>();
@@ -476,4 +489,6 @@ public class Level extends JPanel implements ActionListener,KeyListener {
     	fields.add(gracz);
     	
     }
+    
+
 	}

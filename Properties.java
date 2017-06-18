@@ -20,14 +20,14 @@ public class Properties {
 	public static String FrameTitle;
 	
 	/**
-	 * Zmienna przechowujaca szerokosc okna.
+	 * Zmienna przechowujaca szerokosc okna startowego.
 	 */
-	public static int FrameWidth;
+	public static int StartScreenFrameWidth;
 
 	/**
-	 * Zmienna przechowujaca wysokosc okna.
+	 * Zmienna przechowujaca wysokosc okna startowego.
 	 */
-	public static int FrameHeight;
+	public static int StartScreenFrameHeight;
 
 	/**
 	 * Zmienna przechowujaca szerokosc przyciskow okna startowego.
@@ -78,6 +78,16 @@ public class Properties {
 	 * Zmienna przechowujaca pozycje w poziomie przycisku Exit.
 	 */
 	public static int ExitButtonHorizontalPosition;
+
+	/**
+	 * Zmienna przechowujaca szerokosc okna gry.
+	 */
+	public static int GameScreenFrameWidth;
+	
+	/**
+	 * Zmienna przechowujaca wysokosc okna gry.
+	 */
+	public static int GameScreenFrameHeight;
 	
 	/**
 	 * Zmienna przechowujaca szerokosc przyciskow okna gry.
@@ -128,11 +138,16 @@ public class Properties {
 	 * Zmienna przechowujaca pozycje startowa gracza w pionie.
 	 */
 	public static int PlayerStartPositionY;
-
+	
 	/**
-	 * Zmienna przechowujaca ilosc pol w rzedzie (w pionie i w poziomie).
+	 * Zmienna przechowujaca ilosc pol planszy w poziomie.
 	 */
-	public static int NumberOfFields;
+	public static int NumberOfFieldsHorizontally;
+	
+	/**
+	 * Zmienna przechowujaca ilosc pol planszy w pionie.
+	 */
+	public static int NumberOfFieldsVertically;
 	
 	/**
 	 * Zmienna przechowujaca opis poziomu
@@ -173,10 +188,10 @@ public void load()
 		{
 			if(line.equals("#FrameTitle"))
 				FrameTitle = br.readLine();
-			else if (line.equals("#FrameWidth"))
-				FrameWidth = Integer.parseInt(br.readLine());
-			else if (line.equals("#FrameHeight"))
-				FrameHeight = Integer.parseInt(br.readLine());
+			else if (line.equals("#StartScreenFrameWidth"))
+				StartScreenFrameWidth = Integer.parseInt(br.readLine());
+			else if (line.equals("#StartScreenFrameHeight"))
+				StartScreenFrameHeight = Integer.parseInt(br.readLine());
 			else if (line.equals("#StartScreenButtonsWidth"))
 				StartScreenButtonsWidth = Integer.parseInt(br.readLine());
 			else if (line.equals("#StartScreenButtonsHeight"))
@@ -197,6 +212,10 @@ public void load()
 				ExitButtonVerticalPosition = Integer.parseInt(br.readLine());
 			else if (line.equals("#ExitButtonHorizontalPosition"))
 				ExitButtonHorizontalPosition = Integer.parseInt(br.readLine());
+			else if (line.equals("#GameScreenFrameWidth"))
+				GameScreenFrameWidth = Integer.parseInt(br.readLine());
+			else if (line.equals("#GameScreenFrameHeight"))
+				GameScreenFrameHeight = Integer.parseInt(br.readLine());
 			else if (line.equals("#GameScreenButtonsWidth"))
 				GameScreenButtonsWidth = Integer.parseInt(br.readLine());
 			else if (line.equals("#GameScreenButtonsHeight"))
@@ -217,11 +236,11 @@ public void load()
 				PlayerStartPositionX=Integer.parseInt(br.readLine());
 			else if (line.equals("#PlayerStartPositionY"))
 				PlayerStartPositionY=Integer.parseInt(br.readLine());
-			else if (line.equals("#NumberOfFields"))
-				NumberOfFields=Integer.parseInt(br.readLine());
+			else if (line.equals("#NumberOfFieldsHorizontally"))
+				NumberOfFieldsHorizontally=Integer.parseInt(br.readLine());
 			else if(line.equals("#MapConfiguration"))
 			{
-			for(int i=0;i<NumberOfFields;i++)
+			for(int i=0;i<NumberOfFieldsHorizontally;i++)
 			{
 			mapa[i]=br.readLine();
 			}
@@ -229,7 +248,7 @@ public void load()
 			}
 			
 		}
-		 for(int i=0;i<NumberOfFields;i++)
+		 for(int i=0;i<NumberOfFieldsHorizontally;i++)
 		 {
 			System.out.println(mapa[i]);
 		 }
