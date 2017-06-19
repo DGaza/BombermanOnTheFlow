@@ -25,6 +25,11 @@ public class MainWindow extends JFrame {
     static StartScreen startScreen;
     
     /**
+     * Zmienna przechowujaca okno najlepszych wynikow.
+     */
+    static HighScores highScores;
+    
+    /**
      * Zmienna przechowujaca okno 1 poziomu.
      */
     static Level level1;
@@ -40,15 +45,24 @@ public class MainWindow extends JFrame {
     static Level level3;
     
     /**
+     * Zmienna przechowujaca okno do podania nicku i rozpoczecia gry.
+     */
+    static Nick nick;
+    
+    /**
      * Zmienna przechowujaca okno po ukonczeniu 1 poziomu.
      */
     static LevelCompleteWindow complete1;
     
     /**
-     * Zmienna przechowujaca okno po ukonczeniu 1 poziomu.
+     * Zmienna przechowujaca okno po ukonczeniu 2 poziomu.
      */
     static LevelCompleteWindow complete2;
     
+    /**
+     * Zmienna przechowujaca okno po ukonczeniu 3 poziomu.
+     */
+    static LevelCompleteWindow complete3;
     
     /**
      * Zmienna przechowujaca wysokosc okna.
@@ -77,11 +91,14 @@ public class MainWindow extends JFrame {
     	levels = new ArrayList<Level>();
     	
     	startScreen = new StartScreen();
+    	highScores = new HighScores();
     	level1 = new Level(Properties.mapa1);
     	level2 = new Level(Properties.mapa2);
     	level3 = new Level(Properties.mapa3);
+    	nick = new Nick();
     	complete1 = new LevelCompleteWindow(2);
     	complete2 = new LevelCompleteWindow(3);
+    	complete3 = new LevelCompleteWindow(4);
     	
     	levels.add(level1);
     	levels.add(level2);
@@ -91,11 +108,14 @@ public class MainWindow extends JFrame {
         panels.setLayout(mainLayout);
         
         panels.add(startScreen, "start");
+        panels.add(highScores, "highscores");
         panels.add(level1, "level1");
         panels.add(level2, "level2");
         panels.add(level3, "level3");
+        panels.add(nick, "nick");
         panels.add(complete1, "complete1");
         panels.add(complete2, "complete2");
+        panels.add(complete3, "complete3");
 
         mainLayout.show(panels, "start");
         add(panels);

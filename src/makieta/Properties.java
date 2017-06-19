@@ -1,10 +1,13 @@
 package makieta;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.*;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -260,4 +263,57 @@ public void load()
 
 	}
 }
+
+public void readHighScores(String nazwa_pliku, ArrayList<Player> lista){
+    try {
+        File sciezka2 = new File(nazwa_pliku);
+        FileReader plik2 = new FileReader(sciezka2);
+        BufferedReader odczyt2 = new BufferedReader(plik2);
+        String wiersz = null;
+        odczyt2.readLine();
+
+        for(int i =0 ;i<10;i++) {
+            wiersz = odczyt2.readLine();
+            tworzListe(wiersz,lista,i);
+
+        }
+        odczyt2.close();
+
+
+
+    }
+    catch(IOException e)
+    {
+        System.out.println("Plik nie móg³ zostaæ odczytany");
+        e.printStackTrace();
+    }
+}
+
+public void tworzListe(String wiersz_danych,ArrayList<Player> lista,int p){
+    String[] wierszeListy = wiersz_danych.split(",");
+
+
+    lista.get(p).setNick(wierszeListy[0]);
+    lista.get(p).setPoints(Integer.parseInt(wierszeListy[1]));
+}
+
+public void saveHighScores(String nazwa_pliku,ArrayList<Player> lista){
+    try{
+        File sciezka = new File(nazwa_pliku);
+        BufferedWriter zapis = new BufferedWriter(new FileWriter(sciezka));
+        zapis.write("#Najlepsze Wyniki \n");
+        for(int i =0; i <10;i++) {
+            zapis.write(lista.get(i).getNick() + "," + lista.get(i).getPoints()+"\n");
+        }
+        zapis.close();
+    }
+    catch (FileNotFoundException e) {
+        System.out.println(e.toString());
+        System.out.println("Plik nie móg³ zostaæ odczytany");
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
+
 }

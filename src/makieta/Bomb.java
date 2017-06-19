@@ -76,6 +76,7 @@ public class Bomb extends Field {
 			 					MainWindow.mainLayout.show(MainWindow.panels, "complete2");
 			 					break;
 								case 3:
+								HighScores.dodajWynikiSortuj(Bomb.points,Player.nick);
 			 					MainWindow.mainLayout.show(MainWindow.panels, "complete3");
 			 					break;
 			 				}

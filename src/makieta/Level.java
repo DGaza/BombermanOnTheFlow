@@ -5,21 +5,16 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.io.*; 
 import javax.swing.JPanel;
 import javax.swing.Timer;
 import javax.imageio.ImageIO;
-import javax.swing.JButton;
 import java.awt.*;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.TimerTask;
 
 
 /**
@@ -40,8 +35,7 @@ public class Level extends JPanel implements ActionListener,KeyListener {
 	 private BufferedImage image6;
 	 private BufferedImage image7;
 	 private BufferedImage image8;
-	 
-	 
+	 private BufferedImage image9;	 
 	
 	 boolean initPosition;
 	 boolean bomb;
@@ -53,7 +47,7 @@ public class Level extends JPanel implements ActionListener,KeyListener {
 	 int p=0;
 	 boolean pause=false;
 	 boolean move;
-
+	 JLabel pauza;
 	 
 	
 	 /**
@@ -86,6 +80,12 @@ public class Level extends JPanel implements ActionListener,KeyListener {
 		
 	 public Level(String[] mapa)
 	 {
+		 pauza = new JLabel();
+		 add(pauza);
+		 pauza.setFont(new Font("Arial", Font.PLAIN, 20));
+		 pauza.setText("Pause - P");
+		 pauza.setForeground(Color.WHITE);
+		 
 		 bomb=false;
 		 createMap(mapa);
 		 time=new Timer(delay,this);
@@ -140,12 +140,16 @@ public class Level extends JPanel implements ActionListener,KeyListener {
 		e.printStackTrace();
 	}
 	
+	try {
+		image9 = ImageIO.read(new File("creep_front.png"));
+	} catch (IOException e) {
+		e.printStackTrace();
+	}	
 	}
 	 
 
 	public void paintComponent(Graphics g)
 	{
-		
 	    Graphics2D g2 = (Graphics2D) g;
 	    g2.setPaint(new Color(30,110,180));
 	    	g2.fill(new Rectangle2D.Double(0, 0, getSize().width, getSize().height));
@@ -200,7 +204,7 @@ public class Level extends JPanel implements ActionListener,KeyListener {
 	
 		for(int i=0;i<creeps.size();i++)
     	{
-			g.drawImage(image, 
+			g.drawImage(image9, 
 					creeps.get(i).getX()/Properties.FieldWidth*getSize().width/Properties.NumberOfFields, 
 					creeps.get(i).getY()/Properties.FieldHeight*getSize().height/Properties.NumberOfFields, 
 					getSize().width/Properties.NumberOfFields,
@@ -218,7 +222,7 @@ public class Level extends JPanel implements ActionListener,KeyListener {
     	repaint();
     }
 
-    public void changeImage(int i)
+    public void changePlayerImage(int i)
     {
     	switch(i)
     	{
@@ -263,7 +267,7 @@ public synchronized void akcja(KeyEvent e)
 	move=false;
 	if(e.getKeyCode()==KeyEvent.VK_RIGHT)
 	{
-		changeImage(4);
+		changePlayerImage(4);
 		boolean brak_kolizji=true;
 		for(int i=0;i<fields.size();i++)
 		{
@@ -292,7 +296,7 @@ public synchronized void akcja(KeyEvent e)
 
 	else if(e.getKeyCode()==KeyEvent.VK_LEFT)
 	{
-		changeImage(3);
+		changePlayerImage(3);
 		boolean brak_kolizji=true;
 		for(int i=0;i<fields.size();i++)
 		{
@@ -316,7 +320,7 @@ public synchronized void akcja(KeyEvent e)
 	
 	else if(e.getKeyCode()==KeyEvent.VK_UP)
 	{
-		changeImage(2);
+		changePlayerImage(2);
 
 		boolean brak_kolizji=true;
 		for(int i=0;i<fields.size();i++)
@@ -340,7 +344,7 @@ public synchronized void akcja(KeyEvent e)
 	}
 	else if (e.getKeyCode()==KeyEvent.VK_DOWN)
 	{
-		changeImage(1);
+		changePlayerImage(1);
 		boolean brak_kolizji=true;
 		for(int i=0;i<fields.size();i++)
 		{

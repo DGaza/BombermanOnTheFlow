@@ -2,6 +2,7 @@ package makieta;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
+
 public class Creep extends Field {
 	
 	private Timer moveTimer;
@@ -21,6 +22,7 @@ public class Creep extends Field {
 				
 					if(Creep.this.prawaKolizja(level.fields.get(i))==true)
 					{
+						moveDir = random.nextInt(4);
 						brak_kolizji=false;
 					}
 				}
@@ -32,8 +34,9 @@ public class Creep extends Field {
 					}
 				}
 				if(brak_kolizji&&level.pause==false)
+				{
 					x+=50;
-
+				}
 			}
 			else if(moveDir == 1) 
 			{
@@ -43,6 +46,7 @@ public class Creep extends Field {
 					
 					if(Creep.this.lewaKolizja(level.fields.get(i))==true)
 					{
+						moveDir = random.nextInt(4);
 						brak_kolizji=false;
 					}
 				}
@@ -55,8 +59,9 @@ public class Creep extends Field {
 				}
 			
 				if(brak_kolizji&&level.pause==false)
+				{
 					x-=50;
-
+				}
 			}
 			else if(moveDir == 2) 
 			{
@@ -66,6 +71,7 @@ public class Creep extends Field {
 					
 					if(Creep.this.gornaKolizja(level.fields.get(i))==true)
 					{
+						moveDir = random.nextInt(4);
 						brak_kolizji=false;
 					}
 				}
@@ -78,8 +84,9 @@ public class Creep extends Field {
 				}
 				
 				if(brak_kolizji&&level.pause==false)
+				{
 					y-=50;
-
+				}
 			}
 			else 
 			{
@@ -89,6 +96,7 @@ public class Creep extends Field {
 					
 					if(Creep.this.dolnaKolizja(level.fields.get(i))==true)
 					{
+						moveDir = random.nextInt(4);
 						brak_kolizji=false;
 					}
 				}
@@ -101,13 +109,15 @@ public class Creep extends Field {
 				}
 		
 				if(brak_kolizji&&level.pause==false)
+				{
 					y+=50;
+				}
 			}
 			level.repaint();
 		}
 	}
 	moveTimer = new Timer();
-	moveTimer.schedule(new MoveTask(), 500, 500);
+	moveTimer.schedule(new MoveTask(), 1000, 1000);
 	
 	}
 	

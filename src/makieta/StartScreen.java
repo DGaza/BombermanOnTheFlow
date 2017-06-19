@@ -49,7 +49,7 @@ public class StartScreen extends JPanel implements ActionListener, KeyListener
 		NewGame.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                MainWindow.mainLayout.show(MainWindow.panels, "level1");
+                MainWindow.mainLayout.show(MainWindow.panels, "nick");
                 MainWindow.level1.addKeyListener(new KeyListener() {
                     @Override
                     public void keyTyped(KeyEvent e) {
@@ -87,11 +87,11 @@ public class StartScreen extends JPanel implements ActionListener, KeyListener
 
         add(NewGame,gbc);
         
-        HighScores= new JButton("Najlepsze Wyniki");
+        HighScores= new JButton("High scores");
         HighScores.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+            	MainWindow.mainLayout.show(MainWindow.panels, "highscores");
             }
         });
 
@@ -105,7 +105,7 @@ public class StartScreen extends JPanel implements ActionListener, KeyListener
 
         add(HighScores,gbc);
         
-        Exit= new JButton("Wyjœcie");
+        Exit= new JButton("Exit");
         Exit.setPreferredSize(new Dimension(150, 40));
 		Exit.addActionListener(new ActionListener() {
             @Override
